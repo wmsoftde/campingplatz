@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  email     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Page {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleDe     String
+  titleEn     String
+  contentDe   String
+  contentEn   String
+  image       String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleDe     String
+  titleEn     String
+  excerptDe   String
+  excerptEn   String
+  contentDe   String
+  contentEn   String
+  image       String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Booking {
+  id              String   @id @default(cuid())
+  firstName       String
+  lastName        String
+  street          String
+  postalCode      String
+  city            String
+  country         String
+  phone           String
+  email           String
+  adults          Int
+  children        Int
+  electricity     Boolean  @default(false)
+  checkIn         DateTime
+  checkOut        DateTime
+  totalPrice      Float
+  status          String   @default("pending")
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Settings {
+  id                    String  @id @default("default")
+  siteNameDe            String  @default("Campingplatz")
+  siteNameEn            String  @default("Campsite")
+  email                 String  @default("")
+  phone                 String  @default("")
+  address               String  @default("")
+  
+  totalPlaces           Int     @default(100)
+  pricePlace            Float   @default(8.00)
+  priceAdult            Float   @default(5.00)
+  priceChild            Float   @default(3.00)
+  priceElectricity      Float   @default(3.00)
+  
+  latitude              Float   @default(51.5)
+  longitude             Float   @default(10.0)
+  mapZoom               Int     @default(13)
+  
+  smtpHost              String  @default("")
+  smtpPort              String  @default("587")
+  smtpUser              String  @default("")
+  smtpPassword          String  @default("")
+  smtpFrom              String  @default("")
+  
+  emailConfirmDe        String  @default("Vielen Dank für Ihre Buchung! Wir werden diese in Kürze prüfen.")
+  emailConfirmEn        String  @default("Thank you for your booking! We will review it shortly.")
+  emailCancelDe         String  @default("Ihre Buchung wurde storniert.")
+  emailCancelEn         String  @default("Your booking has been cancelled.")
+  emailRejectDe         String  @default("Ihre Buchung wurde abgelehnt.")
+  emailRejectEn         String  @default("Your booking has been rejected.")
+  
+  agbUrlDe              String  @default("/agb")
+  agbUrlEn              String  @default("/agb")
+  privacyUrlDe          String  @default("/datenschutz")
+  privacyUrlEn          String  @default("/privacy")
+}
+
+model Media {
+  id          String   @id @default(cuid())
+  filename    String
+  originalName String
+  mimeType    String
+  size        Int
+  path        String
+  createdAt   DateTime @default(now())
+}
+
+model NavLink {
+  id        String   @id @default(cuid())
+  labelDe   String
+  labelEn  String
+  url      String
+  position  Int      @default(0)
+  location  String   @default("navbar") // navbar oder footer
+  parentId  String?
+  parent    NavLink? @relation("NavLinkToNavLink", fields: [parentId], references: [id])
+  children  NavLink[] @relation("NavLinkToNavLink")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

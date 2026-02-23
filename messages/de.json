@@ -1,0 +1,209 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "about": "Über uns",
+    "prices": "Preise & Infos",
+    "calendar": "Buchung",
+    "blog": "Neuigkeiten",
+    "contact": "Kontakt",
+    "admin": "Admin"
+  },
+  "home": {
+    "heroTitle": "Willkommen auf unserem Campingplatz",
+    "heroSubtitle": "Erholung inmitten der Natur für die ganze Familie",
+    "cta": "Jetzt buchen",
+    "features": {
+      "title": "Was wir bieten",
+      "nature": {
+        "title": "Natur pur",
+        "desc": "Direkt am Waldrand mit wunderschöner Landschaft"
+      },
+      "family": {
+        "title": "Familienfreundlich",
+        "desc": "Spielplatz, Kinderprogramm und viel Platz zum Toben"
+      },
+      "comfort": {
+        "title": "Komfort",
+        "desc": "Moderne Sanitäranlagen und Stromanschlüsse"
+      }
+    }
+  },
+  "about": {
+    "title": "Über uns",
+    "subtitle": "Willkommen in der Familie"
+  },
+  "prices": {
+    "title": "Preise & Infos",
+    "subtitle": "Transparent und fair",
+    "perNight": "pro Nacht",
+    "place": "Stellplatz",
+    "adult": "Erwachsener",
+    "child": "Kind",
+    "electricity": "Stromanschluss",
+    "info": "Wichtige Informationen"
+  },
+  "calendar": {
+    "title": "Buchungskalender",
+    "subtitle": "Wählen Sie Ihren Aufenthalt",
+    "available": "verfügbar",
+    "booked": "belegt",
+    "selectDates": "Reisedaten auswählen",
+    "checkIn": "Anreise",
+    "checkOut": "Abreise",
+    "guests": "Gäste",
+    "adults": "Erwachsene",
+    "children": "Kinder",
+    "options": "Optionen",
+    "electricity": "Stromanschluss gewünscht",
+    "price": "Gesamtpreis",
+    "submit": "Buchung absenden",
+    "success": "Vielen Dank für Ihre Buchung!",
+    "successDesc": "Wir haben Ihre Buchung erhalten und werden sie in Kürze bearbeiten. Sie erhalten eine Bestätigung per E-Mail.",
+    "form": {
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "street": "Straße und Hausnummer",
+      "postalCode": "PLZ",
+      "city": "Ort",
+      "country": "Land",
+      "phone": "Mobilnummer",
+      "email": "E-Mail-Adresse",
+      "agb": "Ich akzeptiere die {agb} und den {privacy}",
+      "required": "Pflichtfeld"
+    }
+  },
+  "blog": {
+    "title": "Neuigkeiten",
+    "readMore": "Weiterlesen",
+    "noPosts": "Noch keine Beiträge vorhanden."
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Wir freuen uns auf Sie",
+    "address": "Adresse",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "form": {
+      "name": "Name",
+      "subject": "Betreff",
+      "message": "Nachricht",
+      "send": "Nachricht senden",
+      "success": "Vielen Dank! Ihre Nachricht wurde gesendet."
+    }
+  },
+  "admin": {
+    "login": {
+      "title": "Admin-Login",
+      "username": "Benutzername",
+      "password": "Passwort",
+      "submit": "Anmelden",
+      "error": "Anmeldung fehlgeschlagen"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "posts": "Beiträge",
+      "pages": "Seiten",
+      "bookings": "Buchungen",
+      "media": "Medien",
+      "settings": "Einstellungen",
+      "logout": "Abmelden"
+    },
+    "posts": {
+      "title": "Beiträge verwalten",
+      "new": "Neuer Beitrag",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "confirmDelete": "Möchten Sie diesen Beitrag wirklich löschen?",
+      "noPosts": "Noch keine Beiträge vorhanden."
+    },
+    "pages": {
+      "title": "Seiten verwalten",
+      "new": "Neue Seite",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "confirmDelete": "Möchten Sie diese Seite wirklich löschen?"
+    },
+    "bookings": {
+      "title": "Buchungsverwaltung",
+      "status": {
+        "pending": "Ausstehend",
+        "confirmed": "Bestätigt",
+        "cancelled": "Storniert",
+        "rejected": "Abgelehnt"
+      },
+      "actions": {
+        "confirm": "Bestätigen",
+        "cancel": "Stornieren",
+        "reject": "Ablehnen",
+        "delete": "Löschen"
+      },
+      "noBookings": "Noch keine Buchungen vorhanden."
+    },
+    "media": {
+      "title": "Medienverwaltung",
+      "upload": "Datei hochladen",
+      "delete": "Löschen",
+      "noMedia": "Noch keine Dateien vorhanden."
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "general": "Allgemein",
+      "siteName": "Seitenname",
+      "contact": "Kontaktdaten",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "address": "Adresse",
+      "pricing": "Preise",
+      "totalPlaces": "Gesamtzahl Plätze",
+      "pricePlace": "Preis Stellplatz",
+      "priceAdult": "Preis Erwachsener",
+      "priceChild": "Preis Kind",
+      "priceElectricity": "Preis Strom",
+      "map": "Kartenposition",
+      "latitude": "Breitengrad",
+      "longitude": "Längengrad",
+      "zoom": "Zoomstufe",
+      "smtp": "SMTP-Einstellungen",
+      "smtpHost": "SMTP-Host",
+      "smtpPort": "SMTP-Port",
+      "smtpUser": "SMTP-Benutzer",
+      "smtpPassword": "SMTP-Passwort",
+      "smtpFrom": "Absender-E-Mail",
+      "templates": "E-Mail-Vorlagen",
+      "save": "Speichern",
+      "saved": "Einstellungen gespeichert!"
+    },
+    "form": {
+      "title": "Titel",
+      "titleEn": "Titel (Englisch)",
+      "slug": "URL-Slug",
+      "content": "Inhalt",
+      "contentEn": "Inhalt (Englisch)",
+      "excerpt": "Vorschautext",
+      "excerptEn": "Vorschautext (Englisch)",
+      "image": "Bild",
+      "published": "Veröffentlicht",
+      "save": "Speichern",
+      "cancel": "Abbrechen"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "recentBookings": "Aktuelle Buchungen",
+      "totalBookings": "Buchungen gesamt",
+      "pendingBookings": "Offene Buchungen"
+    }
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Ein Fehler ist aufgetreten",
+    "success": "Erfolgreich",
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "back": "Zurück",
+    "yes": "Ja",
+    "no": "Nein"
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About us",
+    "prices": "Prices & Info",
+    "calendar": "Booking",
+    "blog": "News",
+    "contact": "Contact",
+    "admin": "Admin"
+  },
+  "home": {
+    "heroTitle": "Welcome to our campsite",
+    "heroSubtitle": "Relaxation in the middle of nature for the whole family",
+    "cta": "Book now",
+    "features": {
+      "title": "What we offer",
+      "nature": {
+        "title": "Pure nature",
+        "desc": "Right at the edge of the forest with beautiful landscape"
+      },
+      "family": {
+        "title": "Family friendly",
+        "desc": "Playground, kids program and plenty of space to play"
+      },
+      "comfort": {
+        "title": "Comfort",
+        "desc": "Modern sanitary facilities and power connections"
+      }
+    }
+  },
+  "about": {
+    "title": "About us",
+    "subtitle": "Welcome to the family"
+  },
+  "prices": {
+    "title": "Prices & Info",
+    "subtitle": "Transparent and fair",
+    "perNight": "per night",
+    "place": "Pitch",
+    "adult": "Adult",
+    "child": "Child",
+    "electricity": "Electricity",
+    "info": "Important information"
+  },
+  "calendar": {
+    "title": "Booking Calendar",
+    "subtitle": "Choose your stay",
+    "available": "available",
+    "booked": "booked",
+    "selectDates": "Select travel dates",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guests": "Guests",
+    "adults": "Adults",
+    "children": "Children",
+    "options": "Options",
+    "electricity": "Electricity required",
+    "price": "Total price",
+    "submit": "Submit booking",
+    "success": "Thank you for your booking!",
+    "successDesc": "We have received your booking and will process it shortly. You will receive a confirmation email.",
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "street": "Street and number",
+      "postalCode": "Postal code",
+      "city": "City",
+      "country": "Country",
+      "phone": "Mobile number",
+      "email": "Email address",
+      "agb": "I accept the {agb} and the {privacy}",
+      "required": "Required field"
+    }
+  },
+  "blog": {
+    "title": "News",
+    "readMore": "Read more",
+    "noPosts": "No posts available yet."
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "We look forward to hearing from you",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "form": {
+      "name": "Name",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send message",
+      "success": "Thank you! Your message has been sent."
+    }
+  },
+  "admin": {
+    "login": {
+      "title": "Admin Login",
+      "username": "Username",
+      "password": "Password",
+      "submit": "Login",
+      "error": "Login failed"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "posts": "Posts",
+      "pages": "Pages",
+      "bookings": "Bookings",
+      "media": "Media",
+      "settings": "Settings",
+      "logout": "Logout"
+    },
+    "posts": {
+      "title": "Manage Posts",
+      "new": "New Post",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirmDelete": "Are you sure you want to delete this post?",
+      "noPosts": "No posts available yet."
+    },
+    "pages": {
+      "title": "Manage Pages",
+      "new": "New Page",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirmDelete": "Are you sure you want to delete this page?"
+    },
+    "bookings": {
+      "title": "Booking Management",
+      "status": {
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "cancelled": "Cancelled",
+        "rejected": "Rejected"
+      },
+      "actions": {
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "reject": "Reject",
+        "delete": "Delete"
+      },
+      "noBookings": "No bookings available yet."
+    },
+    "media": {
+      "title": "Media Management",
+      "upload": "Upload file",
+      "delete": "Delete",
+      "noMedia": "No files available yet."
+    },
+    "settings": {
+      "title": "Settings",
+      "general": "General",
+      "siteName": "Site Name",
+      "contact": "Contact Information",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "pricing": "Pricing",
+      "totalPlaces": "Total Places",
+      "pricePlace": "Price Pitch",
+      "priceAdult": "Price Adult",
+      "priceChild": "Price Child",
+      "priceElectricity": "Price Electricity",
+      "map": "Map Position",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "zoom": "Zoom Level",
+      "smtp": "SMTP Settings",
+      "smtpHost": "SMTP Host",
+      "smtpPort": "SMTP Port",
+      "smtpUser": "SMTP User",
+      "smtpPassword": "SMTP Password",
+      "smtpFrom": "Sender Email",
+      "templates": "Email Templates",
+      "save": "Save",
+      "saved": "Settings saved!"
+    },
+    "form": {
+      "title": "Title",
+      "titleEn": "Title (English)",
+      "slug": "URL Slug",
+      "content": "Content",
+      "contentEn": "Content (English)",
+      "excerpt": "Excerpt",
+      "excerptEn": "Excerpt (English)",
+      "image": "Image",
+      "published": "Published",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "recentBookings": "Recent Bookings",
+      "totalBookings": "Total Bookings",
+      "pendingBookings": "Pending Bookings"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "yes": "Yes",
+    "no": "No"
+  }
+}
