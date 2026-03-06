@@ -33,8 +33,8 @@ export function Footer({ locale }: { locale: string }) {
             </h3>
             <p className="text-gray-300 text-sm">
               {locale === 'de' 
-                ? 'Ihr familienfreundlicher Campingplatz inmitten der Natur'
-                : 'Your family-friendly campsite in the middle of nature'
+                ? 'Ihr familienfreundlicher Campingplatz mit zentraler Lage'
+                : 'Your family-friendly campsite with a central location'
               }
             </p>
           </div>

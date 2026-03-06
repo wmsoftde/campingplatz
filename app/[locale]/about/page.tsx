@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { prisma } from '@/lib/db';
+import Link from 'next/link';
 
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -16,14 +17,33 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       <Navigation locale={locale} />
       
       <main className="flex-1">
-        <section className="bg-gradient-to-r from-primary to-primary-light py-20">
-          <div className="container-custom">
-            <h1 className="font-heading text-4xl md:text-5xl font-bold text-white">
-              {page ? (locale === 'de' ? page.titleDe : page.titleEn) : t('title')}
-            </h1>
-            <p className="text-white/80 text-xl mt-4">
-              {t('subtitle')}
-            </p>
+        {/* Hero Section with Video Background */}
+        <section className="relative w-full h-[60vh] min-h-[500px] overflow-hidden">
+          {/* Video Background */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            poster="/DOM-ZOOM1.mp4"
+          >
+            <source src="/DOM-ZOOM1.mp4" type="video/mp4" />
+          </video>
+          
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black/40"></div>
+          
+          {/* Content Overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="container-custom text-center text-white relative z-10">
+              <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-lg">
+                {page ? (locale === 'de' ? page.titleDe : page.titleEn) : t('title')}
+              </h1>
+              <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto drop-shadow-md">
+                {t('subtitle')}
+              </p>
+            </div>
           </div>
         </section>
 
@@ -34,7 +54,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                 className="prose prose-lg max-w-none"
                 dangerouslySetInnerHTML={{ 
                   __html: locale === 'de' ? page.contentDe : page.contentEn 
-                }}
+                 }}
               />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -44,19 +64,23 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                   </h2>
                   <p className="text-gray-600 mb-4">
                     {locale === 'de' 
-                      ? 'Unser Campingplatz wurde vor über 30 Jahren gegründet und wird heute in zweiter Generation geführt. Wir legen großen Wert auf Familienfreundlichkeit, Naturschutz und Gastfreundschaft.'
-                      : 'Our campsite was founded over 30 years ago and is now run in the second generation. We place great emphasis on family-friendliness, nature conservation and hospitality.'
+                      ? 'Der Campingplatz liegt auf einem ca. 18000qm großem Grundstück und ist ein Saison-Campingplatz. Der Campingplatz ist von Anfang April bis Ende Oktober geöffnet. Ein Teil des Platzes ist fest an Dauercamper vermietet der andere Teil steht unseren reisenden Gästen zur Verfügung.'
+                      : 'The campsite is located on an approx. 18,000 sqm plot and is a seasonal campsite. The campsite is open from the beginning of April to the end of October. Part of the site is permanently rented out to long-term campers, while the other part is available to our traveling guests.'
                     }
                   </p>
                   <p className="text-gray-600">
                     {locale === 'de' 
-                      ? 'Die idyllische Lage am Waldrand, die modernen Einrichtungen und das vielfältige Freizeitangebot machen unseren Platz zu einem beliebten Reiseziel für Camper aus aller Welt.'
-                      : 'The idyllic location at the edge of the forest, the modern facilities and the diverse leisure activities make our site a popular destination for campers from all over the world.'
+                      ? <>Für die Reservierung eines Stellplatzes können Reisende und Touristen unser <Link href={`/${locale}/calendar`} className="text-primary font-bold hover:underline">Online-Buchungssystem</Link> nutzen.</>
+                      : <>Travelers and tourists can use our <Link href={`/${locale}/calendar`} className="text-primary font-bold hover:underline">online booking system</Link> to reserve a pitch.</>
                     }
                   </p>
                 </div>
-                <div className="bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl h-96 flex items-center justify-center">
-                  <span className="text-8xl">🏕️</span>
+                <div className="relative h-96 rounded-2xl overflow-hidden shadow-lg">
+                  <img 
+                    src="/bild1680x720-1-585x500.jpg" 
+                    alt={locale === 'de' ? 'Unser Campingplatz' : 'Our campsite'} 
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
             )}
@@ -72,10 +96,6 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               {[
                 { icon: '🚿', de: 'Sanitär', en: 'Sanitary' },
                 { icon: '⚡', de: 'Strom', en: 'Electricity' },
-                { icon: '📶', de: 'WLAN', en: 'WiFi' },
-                { icon: '🏪', de: 'Shop', en: 'Shop' },
-                { icon: '🍳', de: 'Küche', en: 'Kitchen' },
-                { icon: '🧺', de: 'Wäsche', en: 'Laundry' },
                 { icon: '🐕', de: 'Haustier', en: 'Pets' },
                 { icon: '🅿️', de: 'Parkplatz', en: 'Parking' },
               ].map((item, idx) => (

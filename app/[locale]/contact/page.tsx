@@ -112,7 +112,7 @@ export default function ContactPage() {
                     <div>
                       <h4 className="font-bold text-gray-800">{t('address')}</h4>
                       <p className="text-gray-600">
-                        {settings?.address || (locale === 'de' ? 'Campingstraße 1, 12345 Ort' : 'Camping Street 1, 12345 City')}
+                        {settings?.address || (locale === 'de' ? 'Helmgesmühle, 53797 Lohmar' : 'Helgesmuehle, 53797 Lohmar')}
                       </p>
                     </div>
                   </div>
@@ -122,7 +122,7 @@ export default function ContactPage() {
                     <div>
                       <h4 className="font-bold text-gray-800">{t('phone')}</h4>
                       <p className="text-gray-600">
-                        {settings?.phone || (locale === 'de' ? '+49 123 456789' : '+49 123 456789')}
+                        {settings?.phone || (locale === 'de' ? '+49 2291 9090546' : '+49 2291 9090546')}
                       </p>
                     </div>
                   </div>
@@ -132,7 +132,7 @@ export default function ContactPage() {
                     <div>
                       <h4 className="font-bold text-gray-800">{t('email')}</h4>
                       <p className="text-gray-600">
-                        {settings?.email || 'info@campingplatz.de'}
+                        {settings?.email || 'info@camping-lohmar.de'}
                       </p>
                     </div>
                   </div>
