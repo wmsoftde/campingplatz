@@ -10,21 +10,21 @@
   },
   "home": {
     "heroTitle": "Welcome to our campsite",
-    "heroSubtitle": "Relaxation in the middle of nature for the whole family",
+    "heroSubtitle": "The family-friendly campsite near the cathedral city of COLOGNE!",
     "cta": "Book now",
     "features": {
       "title": "What we offer",
       "nature": {
-        "title": "Pure nature",
-        "desc": "Right at the edge of the forest with beautiful landscape"
+        "title": "Central Location",
+        "desc": "The Cologne Trade Fair is quickly accessible."
       },
       "family": {
-        "title": "Family friendly",
-        "desc": "Playground, kids program and plenty of space to play"
+        "title": "Family Friendly",
+        "desc": "Reduced prices for children and 4-legged friends are welcome."
       },
       "comfort": {
-        "title": "Comfort",
-        "desc": "Modern sanitary facilities and power connections"
+        "title": "Functional Equipment",
+        "desc": "Power connections available."
       }
     }
   },

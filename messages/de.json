@@ -10,21 +10,21 @@
   },
   "home": {
     "heroTitle": "Willkommen auf unserem Campingplatz",
-    "heroSubtitle": "Erholung inmitten der Natur für die ganze Familie",
+    "heroSubtitle": "Der familienfreundliche Campingplatz in der Nähe der Domstadt KÖLN!",
     "cta": "Jetzt buchen",
     "features": {
       "title": "Was wir bieten",
       "nature": {
-        "title": "Natur pur",
-        "desc": "Direkt am Waldrand mit wunderschöner Landschaft"
+        "title": "Zentrale Lage",
+        "desc": "Die Messe in Köln ist schnell erreichbar."
       },
       "family": {
         "title": "Familienfreundlich",
-        "desc": "Spielplatz, Kinderprogramm und viel Platz zum Toben"
+        "desc": "Vergünstigte Preise für Kinder und auch 4Beiner sind willkommen."
       },
       "comfort": {
-        "title": "Komfort",
-        "desc": "Moderne Sanitäranlagen und Stromanschlüsse"
+        "title": "Zweckmäßige Ausstattung",
+        "desc": "Stromanschlüsse verfügbar."
       }
     }
   },

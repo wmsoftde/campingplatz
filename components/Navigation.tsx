@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import clsx from 'clsx';
+import NavWeatherWidget from '@/components/NavWeatherWidget';
 
 interface NavLink {
   id: string;
@@ -51,12 +52,19 @@ export function Navigation({ locale }: { locale: string }) {
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="container-custom">
         <div className="flex justify-between items-center h-16">
-          <Link href={`/${locale}`} className="flex items-center space-x-2">
-            <span className="text-2xl">⛺</span>
-            <span className="font-heading text-xl font-bold text-primary">
-              {locale === 'de' ? 'Campingplatz' : 'Campsite'}
-            </span>
-          </Link>
+          <div className="flex items-center gap-6">
+            {/* Weather Widget - Leftmost */}
+            <div className="hidden sm:block">
+              <NavWeatherWidget locale={locale} />
+            </div>
+            
+            <Link href={`/${locale}`} className="flex items-center space-x-2">
+              <span className="text-2xl">⛺</span>
+              <span className="font-heading text-xl font-bold text-primary">
+                {locale === 'de' ? 'Campingplatz' : 'Campsite'}
+              </span>
+            </Link>
+          </div>
 
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
