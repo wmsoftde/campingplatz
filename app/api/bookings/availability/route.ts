@@ -12,8 +12,8 @@ export async function GET(request: Request) {
     const settings = await prisma.settings.findFirst();
     const totalPlaces = settings?.totalPlaces || 100;
     
-    const startDate = new Date(year, month - 1, 1);
-    const endDate = new Date(year, month, 0);
+    const startDate = new Date(Date.UTC(year, month - 1, 1));
+    const endDate = new Date(Date.UTC(year, month, 0, 23, 59, 59));
     
     const bookings = await prisma.booking.findMany({
       where: {
@@ -27,18 +27,24 @@ export async function GET(request: Request) {
       }
     });
     
-    const daysInMonth = endDate.getDate();
+    const daysInMonth = new Date(year, month, 0).getDate();
     const monthData = [];
     
     for (let day = 1; day <= daysInMonth; day++) {
-      const currentDate = new Date(year, month - 1, day);
-      const dateStr = currentDate.toISOString().split('T')[0];
+      const currentDate = new Date(Date.UTC(year, month - 1, day));
+      const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
       
       let booked = 0;
       bookings.forEach(booking => {
         const checkIn = new Date(booking.checkIn);
         const checkOut = new Date(booking.checkOut);
-        if (currentDate >= checkIn && currentDate < checkOut) {
+        
+        // Use UTC time for comparison to avoid timezone issues
+        const currentUTC = currentDate.getTime();
+        const checkInUTC = checkIn.getTime();
+        const checkOutUTC = checkOut.getTime();
+        
+        if (currentUTC >= checkInUTC && currentUTC < checkOutUTC) {
           booked++;
         }
       });

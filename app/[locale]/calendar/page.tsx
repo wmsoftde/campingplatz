@@ -108,6 +108,13 @@ export default function BookingPage() {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
   };
 
+  const getLocalDateString = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const handleDayClick = (dateStr: string, booked: number, total: number) => {
     if (booked >= total) return;
     
@@ -283,11 +290,11 @@ export default function BookingPage() {
                         })}
                         {monthData.map((day, dayIdx) => {
                           const date = new Date(currentDate.getFullYear(), currentDate.getMonth() + monthIdx, dayIdx + 1);
-                          const dateStr = date.toISOString().split('T')[0];
+                          const dateStr = getLocalDateString(date);
                           const isBooked = day.booked >= day.total;
                           const isSelected = checkIn === dateStr || checkOut === dateStr;
                           const isInRange = checkIn && checkOut && dateStr > checkIn && dateStr < checkOut;
-                          const isToday = new Date().toISOString().split('T')[0] === dateStr;
+                          const isToday = getLocalDateString(new Date()) === dateStr;
 
                           return (
                             <button
@@ -335,7 +342,7 @@ export default function BookingPage() {
                         type="date"
                         value={checkIn || ''}
                         onChange={(e) => setCheckIn(e.target.value)}
-                        min={new Date().toISOString().split('T')[0]}
+                        min={getLocalDateString(new Date())}
                         className="input-field"
                       />
                     </div>
@@ -347,7 +354,7 @@ export default function BookingPage() {
                         type="date"
                         value={checkOut || ''}
                         onChange={(e) => setCheckOut(e.target.value)}
-                        min={checkIn || new Date().toISOString().split('T')[0]}
+                        min={checkIn || getLocalDateString(new Date())}
                         className="input-field"
                       />
                     </div>
