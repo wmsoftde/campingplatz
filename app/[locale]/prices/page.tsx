@@ -2,11 +2,17 @@ import { getTranslations } from 'next-intl/server';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { prisma } from '@/lib/db';
+import { unstable_noStore as noStore } from 'next/cache';
+import { headers } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function PricesPage({ params }: { params: Promise<{ locale: string }> }) {
+  // Force dynamic rendering by calling headers and noStore
+  noStore();
+  await headers();
+  
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'prices' });
   

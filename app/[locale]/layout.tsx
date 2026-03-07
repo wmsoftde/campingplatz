@@ -6,8 +6,10 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { prisma } from '@/lib/db';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  noStore();
   const { locale } = await params;
   const settings = await prisma.settings.findFirst();
   const siteName = settings ? (locale === 'de' ? settings.siteNameDe : settings.siteNameEn) : 'Campingplatz';
@@ -19,10 +21,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     description: locale === 'de' ? 'Familienfreundlicher Campingplatz' : 'Family-friendly campsite',
   };
-}
-
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
 }
 
 export default async function RootLayout({
