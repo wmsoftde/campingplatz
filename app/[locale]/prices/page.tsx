@@ -4,20 +4,26 @@ import { Footer } from '@/components/Footer';
 import { prisma } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function PricesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'prices' });
-  const settings = await prisma.settings.findFirst();
+  
+  // Use findUnique with 'default' to be sure
+  const settings = await prisma.settings.findUnique({
+    where: { id: 'default' }
+  });
 
   const page = await prisma.page.findFirst({
     where: { slug: 'prices', published: true }
   });
 
-  const pricePlace = settings?.pricePlace ?? 8;
-  const priceAdult = settings?.priceAdult ?? 5;
-  const priceChild = settings?.priceChild ?? 3;
-  const priceElectricity = settings?.priceElectricity ?? 3;
+  // Ensure these are treated as numbers
+  const pricePlace = Number(settings?.pricePlace ?? 8);
+  const priceAdult = Number(settings?.priceAdult ?? 5);
+  const priceChild = Number(settings?.priceChild ?? 3);
+  const priceElectricity = Number(settings?.priceElectricity ?? 3);
 
   return (
     <>

@@ -30,7 +30,7 @@ export function Navigation({ locale }: { locale: string }) {
       .then(data => setNavLinks(data.navbar || []))
       .catch(console.error);
 
-    fetch('/api/settings')
+    fetch(`/api/settings?t=${Date.now()}`)
       .then(res => res.json())
       .then(data => {
         if (data) {

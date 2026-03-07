@@ -23,7 +23,7 @@ export function Footer({ locale }: { locale: string }) {
       .then(data => setFooterLinks(data.footer || []))
       .catch(console.error);
 
-    fetch('/api/settings')
+    fetch(`/api/settings?t=${Date.now()}`)
       .then(res => res.json())
       .then(data => {
         if (data) {

@@ -72,7 +72,7 @@ export default function ContactPage() {
   const [settings, setSettings] = useState<any>(null);
 
   useEffect(() => {
-    fetch('/api/settings')
+    fetch(`/api/settings?t=${Date.now()}`)
       .then(res => res.json())
       .then(data => setSettings(data))
       .catch(console.error);
