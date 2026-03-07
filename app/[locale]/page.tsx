@@ -115,7 +115,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </div>
               <div className="relative h-80 rounded-2xl overflow-hidden shadow-lg">
                 <img 
-                  src="/video-standbild-950x320.jpg" 
+                  src="/karte-einfahrt-natur-380x320.jpg" 
                   alt={locale === 'de' ? 'Ihr Zwischenstopp' : 'Your stopover'} 
                   className="w-full h-full object-cover"
                 />
