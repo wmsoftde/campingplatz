@@ -20,6 +20,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       default: siteName,
     },
     description: locale === 'de' ? 'Familienfreundlicher Campingplatz' : 'Family-friendly campsite',
+    icons: {
+      icon: '/icon.svg',
+    },
   };
 }
 

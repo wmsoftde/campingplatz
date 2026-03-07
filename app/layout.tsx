@@ -5,6 +5,9 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Campingplatz',
   description: 'Familienfreundlicher Campingplatz',
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({
