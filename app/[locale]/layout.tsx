@@ -5,11 +5,21 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { prisma } from '@/lib/db';
 
-export const metadata: Metadata = {
-  title: 'Campingplatz',
-  description: 'Familienfreundlicher Campingplatz',
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const settings = await prisma.settings.findFirst();
+  const siteName = settings ? (locale === 'de' ? settings.siteNameDe : settings.siteNameEn) : 'Campingplatz';
+
+  return {
+    title: {
+      template: `%s | ${siteName}`,
+      default: siteName,
+    },
+    description: locale === 'de' ? 'Familienfreundlicher Campingplatz' : 'Family-friendly campsite',
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

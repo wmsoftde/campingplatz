@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { revalidatePath } from 'next/cache';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
@@ -27,6 +30,11 @@ export async function PUT(request: Request) {
       update: body,
       create: { ...body, id: 'default' }
     });
+    
+    // Revalidate paths that use settings
+    revalidatePath('/', 'layout');
+    revalidatePath('/[locale]/prices', 'page');
+    revalidatePath('/[locale]/contact', 'page');
     
     return NextResponse.json(settings);
   } catch (error) {

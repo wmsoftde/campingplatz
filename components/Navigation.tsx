@@ -22,13 +22,23 @@ export function Navigation({ locale }: { locale: string }) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [navLinks, setNavLinks] = useState<NavLink[]>([]);
+  const [siteName, setSiteName] = useState(locale === 'de' ? 'Campingplatz' : 'Campsite');
 
   useEffect(() => {
     fetch('/api/navigation')
       .then(res => res.json())
       .then(data => setNavLinks(data.navbar || []))
       .catch(console.error);
-  }, []);
+
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          setSiteName(locale === 'de' ? data.siteNameDe : data.siteNameEn);
+        }
+      })
+      .catch(console.error);
+  }, [locale]);
 
   // Only home is static, all other links come from database
   const staticHome = [
@@ -61,7 +71,7 @@ export function Navigation({ locale }: { locale: string }) {
             <Link href={`/${locale}`} className="flex items-center space-x-2">
               <span className="text-2xl">⛺</span>
               <span className="font-heading text-xl font-bold text-primary">
-                {locale === 'de' ? 'Campingplatz' : 'Campsite'}
+                {siteName}
               </span>
             </Link>
           </div>

@@ -15,13 +15,23 @@ interface NavLink {
 export function Footer({ locale }: { locale: string }) {
   const t = useTranslations('nav');
   const [footerLinks, setFooterLinks] = useState<NavLink[]>([]);
+  const [siteName, setSiteName] = useState(locale === 'de' ? 'Campingplatz' : 'Campsite');
 
   useEffect(() => {
     fetch('/api/navigation')
       .then(res => res.json())
       .then(data => setFooterLinks(data.footer || []))
       .catch(console.error);
-  }, []);
+
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          setSiteName(locale === 'de' ? data.siteNameDe : data.siteNameEn);
+        }
+      })
+      .catch(console.error);
+  }, [locale]);
 
   return (
     <footer className="bg-primary-dark text-white mt-auto">
@@ -29,7 +39,7 @@ export function Footer({ locale }: { locale: string }) {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="font-heading text-xl font-bold mb-4">
-              {locale === 'de' ? 'Campingplatz' : 'Campsite'}
+              {siteName}
             </h3>
             <p className="text-gray-300 text-sm">
               {locale === 'de' 
@@ -84,7 +94,7 @@ export function Footer({ locale }: { locale: string }) {
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
-          © {new Date().getFullYear()} Campingplatz. {locale === 'de' ? 'Alle Rechte vorbehalten.' : 'All rights reserved.'}
+          © {new Date().getFullYear()} {siteName}. {locale === 'de' ? 'Alle Rechte vorbehalten.' : 'All rights reserved.'}
         </div>
       </div>
     </footer>
