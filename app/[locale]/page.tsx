@@ -113,8 +113,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   {locale === 'de' ? 'Mehr über uns' : 'Learn more about us'}
                 </Link>
               </div>
-              <div className="bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl h-80 flex items-center justify-center">
-                <span className="text-6xl">🏕️</span>
+              <div className="relative h-80 rounded-2xl overflow-hidden shadow-lg">
+                <img 
+                  src="/video-standbild-950x320.jpg" 
+                  alt={locale === 'de' ? 'Ihr Zwischenstopp' : 'Your stopover'} 
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
