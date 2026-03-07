@@ -40,8 +40,62 @@ async function main() {
       slug: 'agb',
       titleDe: 'Allgemeine Geschäftsbedingungen',
       titleEn: 'Terms and Conditions',
-      contentDe: `<h2>1. Geltungsbereich</h2><p>Diese Geschäftsbedingungen gelten für alle Reservierungen und Verträge auf unserem Campingplatz.</p><h2>2. Buchungen</h2><p>Eine Buchung wird erst nach unserer Bestätigung verbindlich.</p><h2>3. Stornierungen</h2><p>Stornierungen müssen schriftlich erfolgen. Es können Stornogebühren anfallen.</p>`,
-      contentEn: `<h2>1. Scope</h2><p>These terms and conditions apply to all reservations and contracts at our campsite.</p><h2>2. Bookings</h2><p>A booking only becomes binding after our confirmation.</p><h2>3. Cancellations</h2><p>Cancellations must be made in writing. Cancellation fees may apply.</p>`,
+      contentDe: `<h2>Allgemeine Geschäftsbedingungen – Camping im Sülztal</h2>
+<h3>1. Zustandekommen des Vertrags</h3>
+<p>Reservierungen können schriftlich, per E-Mail oder Online-Buchungssystem vorgenommen werden. Mit der Anmeldung bietet der Campinggast dem Campingplatz den Abschluss eines Campingvertrages an. Der Campingvertrag kommt erst mir der schriftlichen Buchungsbestätigung durch den Campingplatz und der Überweisung der Anzahlung gem. Ziff. 3. zustande. Ein Anspruch auf einen bestimmten Stellplatz und/oder Stellplatznummer besteht nicht.</p>
+<h3>2. Entgelt</h3>
+<p>Die vom Campinggast zu zahlenden Preise ergeben sich aus den jährlich aktualisierten Preislisten des Campingplatzes. Der Gast hat sich über die im Anmeldezeitraum geltenden Preise für die angebotenen Leistungen zu informieren.</p>
+<h3>3. Zahlungsbedingungen</h3>
+<p>Mit Zugang der Buchungsanfrage wird eine Anzahlung fällig. Diese beträgt 30% der Gesamtkosten und ist innerhalb von 3 Tagen ab Zugang der Buchungsbestätigung auf unser Konto:</p>
+<p>Kontoinhaber: Wolfgang Mückl<br>Bank: ING Bank<br>IBAN: DE60500105176000323861<br>BIC: INGDDEFFXXX</p>
+<p>unter Angabe der Buchungsnummer (Anfrage ID) zu zahlen.</p>
+<p>Der verbleibende Restbetrag ist bei Ankunft vor Ort beim Platzwart in bar zu begleichen.</p>
+<p>Bei fruchtlosem Verstreichen der Frist für den Zahlungseingang wird die Reservierung ohne gesonderte Benachrichtigung gelöscht und es kommt kein wirksamer Vertrag zustande.</p>
+<h3>4. An- und Abreisezeiten</h3>
+<p>Der Stellplatz steht dem Campinggast am Anreisetag zur Verfügung. Bei Anreise nach 18.00 Uhr bitten wir um Benachrichtigung. Der Campinggast darf den Campingplatz nur mit angemeldeten Fahrzeugen befahren. Der Stellplatz muss am Abreisetag sauber verlassen werden. Die Berechung der Platzmiete erfolgt pro Tag. Die vertragsgerechte Räumung ist jedoch Hauptpflicht des Campinggastes.</p>
+<h3>5. Aufenthalt / Besuch</h3>
+<p>Der Campingplatz darf nur mit der angemeldeten Personenanzahl genutzt werden. Besucher müssen bei Betreten des Platzes beim Platzwart angemeldet werden. Der Stellplatz darf nur mit einer Campingausrüstung (1 Zelt oder 1 Wohnwagen inkl. 1 Auto oder 1 Wohnmobil) belegt werden.</p>
+<p>Der Campinggast erkennt für sich und für die von ihm angemeldeten Personen die Platzordnung an. Diese ist Bestandteil des Vertrags. Sie ist auf dem Campingplatz ausgehängt, im Internet veröffentlicht und kann auf Wunsch übersandt werden.</p>
+<h3>6. Mängel</h3>
+<p>Sofern der zugewiesene Stellplatz bzw. sonstige Vertragsleistungen nicht den vertraglich vereinbarten Eigenschaften entsprechen, hat der Campinggast der Campingverwaltung die Mängel am Feststellungstag, spätestens aber am darauf folgenden Tag anzuzeigen.</p>
+<h3>7. Haftung</h3>
+<p>Der Gast und die ihn begleitenden Personen verpflichten sich, den Stellplatz sowie Gebäude, Einrichtungen, Inventar etc. des Campingplatzes pfleglich zu behandeln. Schäden die während des Aufenthaltes durch den Gast selbst oder dessen Begleitpersonen verursacht werden, sind dem Vermieter oder Erfüllungsgehilfen (Platzwart) umgehend mitzuteilen und mit Ausnahme der Beweisführung des Nichtverschuldens zu ersetzen. Ansprüche des Campinggastes auf Schadensersatz sind ausgeschlossen. Hiervon ausgenommen sind Schäden aus der Verletzung des Lebens, des Körpers oder der Gesundheit, wenn der Campingplatz die Pflichtverletzung zu vertreten hat, sonstige Schäden, die auf einer vorsätzlichen oder grob fahrlässigen Pflichtverletzung des Campingplatzes beruhen und Schäden, die auf einer vorsätzlichen oder fahrlässigen Verletzung von vertragstypischen Pflichten des Campingplatzes beruhen. Einer Pflichtverletzung des Campingplatzes steht die eines gesetzlichen Vertreters oder Erfüllungsgehilfen gleich.</p>
+<p>Der Campingplatz weist jedoch ausdrücklich darauf hin, dass aus der Natur herrührende Unregelmäßigkeiten, Beschädigungen oder Verluste (z.B. Baumfrüchte, Insekten, Tiere, Astwerk etc.) auftreten können.</p>
+<h3>8. Umbuchung/Rücktritt</h3>
+<p>Umbuchungen wirksamer Verträge sind ohne rechtsverbindlichen Anspruch des Gastes grundsätzlich möglich. Der Campinggast kann jederzeit vor Reisebeginn vom Vertrag zurücktreten. Die Rücktrittserklärung ist schriftlich vorzunehmen. Tritt der Campinggast vom Vertrag zurück, kann der Campingplatz pauschalierte Rücktrittskosten verlangen, bei deren Berechnung die gewöhnlich anderweitige Verwendung der Leistung sowie ersparte Aufwendungen berücksichtigt sind.</p>
+<p>Bei Nichtanreise ohne Kündigungserklärung, verspäteter Anreise, Verkürzung oder vorzeitiger Abreise ist das vertragliche Entgelt in voller Höhe zu zahlen. Sowohl für diese Fälle als auch für den Fall einer Kündigungserklärung vor Reiseantritt steht dem Campinggast der Nachweis frei, dass die vorgenannten Ansprüche nicht oder nicht in der geforderten Höhe entstanden sind. In jeden Fall empfehlen wir den Abschluss einer Reiserücktrittsversicherung.</p>
+<p>Bei Nichtinanspruchnahme des Stellplatzes durch den Campinggast ohne Abstimmung mit dem Campingplatz, besteht für diesen die Möglichkeit, sich anderweitig um die Vermietung zu bemühen. Eine Verpflichtung hierzu besteht nicht. Etwaige Zahlungsansprüche des Vermieters bleiben unter Berücksichtigung o. g. Vereinbarungen unberührt. Der Campinggast verzichtet jedoch auf seine ihm zustehenden Rechte gegenüber dem Campingplatz, wenn er diese nicht bis zum Folgetag der Anreise 11.00 Uhr dem Vermieter anzeigt und geltend macht.</p>
+<h3>9. Sonstige Vereinbarungen</h3>
+<p>Soweit in den Allgemeinen Geschäftsbedingungen der Begriff Campingplatz verwendet wird, ist hiermit das Unternehmen Campingplatz im Sülztal, Inhaber Herr Wolfgang Mückl gemeint. Telefonische Auskünfte, Nebenabreden und sonstige Zusicherungen, gleich welcher Art, bedürfen zu ihrer Wirksamkeit der schriftlichen Bestätigung. Im Übrigen gelten die gesetzlichen Bestimmungen.</p>
+<p>(Stand 02/2026)</p>`,
+      contentEn: `<h2>General Terms and Conditions – Camping im Sülztal</h2>
+<h3>1. Conclusion of Contract</h3>
+<p>Reservations can be made in writing, by email or through the online booking system. By registering, the camping guest offers the campsite the conclusion of a camping contract. The camping contract is only concluded with the written booking confirmation by the campsite and the transfer of the deposit according to section 3. There is no claim to a specific pitch and/or pitch number.</p>
+<h3>2. Fee</h3>
+<p>The prices to be paid by the camping guest are based on the campsite's annually updated price lists. The guest must inform themselves about the prices applicable for the services offered during the registration period.</p>
+<h3>3. Payment Terms</h3>
+<p>Upon receipt of the booking request, a deposit is due. This amounts to 30% of the total costs and must be paid to our account within 3 days of receipt of the booking confirmation:</p>
+<p>Account holder: Wolfgang Mückl<br>Bank: ING Bank<br>IBAN: DE60500105176000323861<br>BIC: INGDDEFFXXX</p>
+<p>stating the booking number (request ID).</p>
+<p>The remaining balance must be paid in cash on arrival at the site to the site manager.</p>
+<p>If the deadline for receipt of payment expires fruitlessly, the reservation will be deleted without separate notification and no effective contract is concluded.</p>
+<h3>4. Arrival and Departure Times</h3>
+<p>The pitch is available to the camping guest on the day of arrival. We ask for notification if arriving after 6.00 p.m. The camping guest may only enter the campsite with registered vehicles. The pitch must be left clean on the day of departure. The calculation of the pitch rent is per day. However, the evacuation in accordance with the contract is the main obligation of the camping guest.</p>
+<h3>5. Stay / Visit</h3>
+<p>The campsite may only be used by the registered number of people. Visitors must be registered with the site manager when entering the site. The pitch may only be occupied by one set of camping equipment (1 tent or 1 caravan incl. 1 car or 1 motorhome).</p>
+<p>The camping guest accepts the site rules for themselves and for the persons registered by them. These are part of the contract. They are posted at the campsite, published on the Internet and can be sent on request.</p>
+<h3>6. Defects</h3>
+<p>If the assigned pitch or other contractual services do not correspond to the contractually agreed properties, the camping guest must notify the campsite administration of the defects on the day of discovery, but no later than the following day.</p>
+<h3>7. Liability</h3>
+<p>The guest and the persons accompanying them undertake to treat the pitch as well as buildings, facilities, inventory etc. of the campsite with care. Damage caused during the stay by the guest themselves or their accompanying persons must be reported immediately to the landlord or vicarious agents (site manager) and, with the exception of proof of no fault, replaced. Claims for damages by the camping guest are excluded. Exceptions to this are damages resulting from injury to life, body or health if the campsite is responsible for the breach of duty, other damages based on an intentional or grossly negligent breach of duty by the campsite and damages based on an intentional or negligent breach of duties typical of the contract by the campsite. A breach of duty by the campsite is equivalent to that of a legal representative or vicarious agent.</p>
+<p>However, the campsite explicitly points out that irregularities, damages or losses originating from nature (e.g. tree fruits, insects, animals, branches etc.) can occur.</p>
+<h3>8. Rebooking/Withdrawal</h3>
+<p>Rebookings of effective contracts are generally possible without a legally binding claim by the guest. The camping guest can withdraw from the contract at any time before the start of the trip. The declaration of withdrawal must be made in writing. If the camping guest withdraws from the contract, the campsite can demand flat-rate withdrawal costs, the calculation of which takes into account the usual other use of the service as well as saved expenses.</p>
+<p>In the event of non-arrival without a notice of termination, late arrival, shortening or early departure, the contractual fee must be paid in full. For these cases as well as for the case of a notice of termination before the start of the trip, the camping guest is free to prove that the aforementioned claims have not arisen or have not arisen in the amount demanded. In any case, we recommend taking out travel cancellation insurance.</p>
+<p>In the event of non-use of the pitch by the camping guest without coordination with the campsite, the campsite has the possibility to try to rent it elsewhere. There is no obligation to do so. Any payment claims of the landlord remain unaffected, taking into account the above agreements. However, the camping guest waives their rights to the campsite if they do not report and assert them to the landlord by 11.00 a.m. on the day following arrival.</p>
+<h3>9. Other Agreements</h3>
+<p>Insofar as the term campsite is used in the General Terms and Conditions, this refers to the company Campingplatz im Sülztal, owner Mr. Wolfgang Mückl. Information provided by telephone, secondary agreements and other assurances, regardless of their nature, require written confirmation for their effectiveness. Otherwise, the legal provisions apply.</p>
+<p>(As of 02/2026)</p>`,
       published: true,
     },
     {
