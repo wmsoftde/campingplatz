@@ -93,51 +93,30 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
         </section>
 
         <section className="py-16 bg-white">
-          <div className="container-custom">
-            <h2 className="font-heading text-3xl font-bold text-primary text-center mb-8">
-              {locale === 'de' ? 'Was inbegriffen ist' : 'What is included'}
+          <div className="container-custom max-w-4xl mx-auto text-center">
+            <h2 className="font-heading text-3xl font-bold text-primary mb-8 underline decoration-accent decoration-4 underline-offset-8">
+              {locale === 'de' ? 'Wichtige Preisinformationen' : 'Important Price Information'}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="flex items-start space-x-4">
-                <span className="text-2xl">✅</span>
-                <div>
-                  <h4 className="font-bold text-gray-800">
-                    {locale === 'de' ? 'Wasser & Strom' : 'Water & Electricity'}
-                  </h4>
-                  <p className="text-gray-600 text-sm">
-                    {locale === 'de' 
-                      ? 'Alle Stellplätze verfügen über Wasser- und Stromanschluss'
-                      : 'All pitches have water and electricity connections'
-                    }
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <span className="text-2xl">✅</span>
-                <div>
-                  <h4 className="font-bold text-gray-800">
-                    {locale === 'de' ? 'WLAN' : 'WiFi'}
-                  </h4>
-                  <p className="text-gray-600 text-sm">
-                    {locale === 'de' 
-                      ? 'Kostenloses WLAN auf dem gesamten Gelände'
-                      : 'Free WiFi throughout the site'
-                    }
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <span className="text-2xl">✅</span>
-                <div>
-                  <h4 className="font-bold text-gray-800">
-                    {locale === 'de' ? 'Sanitär' : 'Sanitary'}
-                  </h4>
-                  <p className="text-gray-600 text-sm">
-                    {locale === 'de' 
-                      ? 'Moderne Sanitärgebäude mit Duschen und WC'
-                      : 'Modern sanitary buildings with showers and toilets'
-                    }
-                  </p>
+            <div className="bg-background rounded-2xl p-8 shadow-inner border border-primary/10">
+              <div className="space-y-6 text-xl text-gray-700">
+                <p className="font-bold text-primary italic">
+                  {locale === 'de' 
+                    ? 'Preise für Dauercamping auf Anfrage!' 
+                    : 'Prices for long-term camping on request!'}
+                </p>
+                <div className="h-px bg-primary/20 w-1/2 mx-auto"></div>
+                <p>
+                  {locale === 'de' 
+                    ? 'Alle Preise inkl. der gesetzlichen MwSt.' 
+                    : 'All prices incl. statutory VAT.'}
+                </p>
+                <p className="font-medium">
+                  {locale === 'de' 
+                    ? 'Die Beträge sind bei Anmietung sofort fällig!' 
+                    : 'Amounts are due immediately upon rental!'}
+                </p>
+                <div className="pt-6 text-sm text-gray-400">
+                  {locale === 'de' ? 'Stand 02/2026' : 'As of 02/2026'}
                 </div>
               </div>
             </div>
