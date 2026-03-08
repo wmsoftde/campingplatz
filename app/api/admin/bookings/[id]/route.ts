@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { sendBookingStatusUpdate } from '@/lib/email';
 
 export async function PUT(
   request: Request,
@@ -7,12 +8,21 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const { status } = await request.json();
+    const { status, locale = 'de' } = await request.json();
     
     const booking = await prisma.booking.update({
       where: { id },
       data: { status }
     });
+
+    // Send status update email
+    try {
+      if (['confirmed', 'cancelled', 'rejected'].includes(status)) {
+        await sendBookingStatusUpdate(booking, status as any, locale);
+      }
+    } catch (emailError) {
+      console.error('Failed to send status update email:', emailError);
+    }
     
     return NextResponse.json(booking);
   } catch (error) {

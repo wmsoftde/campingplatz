@@ -39,7 +39,7 @@ export default function BookingsPage() {
     await fetch(`/api/admin/bookings/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status })
+      body: JSON.stringify({ status, locale: 'de' }) // Admin UI currently defaults to 'de' for notifications
     });
     fetchBookings();
   };

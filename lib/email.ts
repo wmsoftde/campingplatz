@@ -54,6 +54,14 @@ export async function sendEmail(to: string, subject: string, html: string) {
   }
 }
 
+function formatDate(date: Date | string) {
+  const d = new Date(date);
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const year = d.getUTCFullYear();
+  return `${day}.${month}.${year}`;
+}
+
 export async function sendBookingConfirmation(booking: any, locale: string = 'de') {
   const settings = await prisma.settings.findFirst();
   if (!settings) return;
@@ -67,8 +75,8 @@ export async function sendBookingConfirmation(booking: any, locale: string = 'de
     <h2>Buchungsdetails:</h2>
     <ul>
       <li>Name: ${booking.firstName} ${booking.lastName}</li>
-      <li>Anreise: ${new Date(booking.checkIn).toLocaleDateString('de-DE')}</li>
-      <li>Abreise: ${new Date(booking.checkOut).toLocaleDateString('de-DE')}</li>
+      <li>Anreise: ${formatDate(booking.checkIn)}</li>
+      <li>Abreise: ${formatDate(booking.checkOut)}</li>
       <li>Erwachsene: ${booking.adults}</li>
       <li>Kinder: ${booking.children}</li>
       <li>Gesamtpreis: €${booking.totalPrice.toFixed(2)}</li>
@@ -110,8 +118,8 @@ export async function sendBookingStatusUpdate(
     <h2>Buchungsdetails:</h2>
     <ul>
       <li>Name: ${booking.firstName} ${booking.lastName}</li>
-      <li>Anreise: ${new Date(booking.checkIn).toLocaleDateString('de-DE')}</li>
-      <li>Abreise: ${new Date(booking.checkOut).toLocaleDateString('de-DE')}</li>
+      <li>Anreise: ${formatDate(booking.checkIn)}</li>
+      <li>Abreise: ${formatDate(booking.checkOut)}</li>
     </ul>
   `;
 

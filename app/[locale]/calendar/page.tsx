@@ -109,9 +109,9 @@ export default function BookingPage() {
   };
 
   const getLocalDateString = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
 
@@ -121,11 +121,15 @@ export default function BookingPage() {
     if (!checkIn || (checkIn && checkOut)) {
       setCheckIn(dateStr);
       setCheckOut(null);
-    } else if (new Date(dateStr) > new Date(checkIn)) {
-      setCheckOut(dateStr);
     } else {
-      setCheckIn(dateStr);
-      setCheckOut(null);
+      const d1 = new Date(checkIn);
+      const d2 = new Date(dateStr);
+      if (d2 > d1) {
+        setCheckOut(dateStr);
+      } else {
+        setCheckIn(dateStr);
+        setCheckOut(null);
+      }
     }
   };
 
@@ -167,7 +171,8 @@ export default function BookingPage() {
           adults,
           children,
           electricity,
-          totalPrice
+          totalPrice,
+          locale
         })
       });
       
@@ -278,23 +283,26 @@ export default function BookingPage() {
                           </div>
                         ))}
                         {Array.from({ length: 7 }).map((_, idx) => {
-                          const firstDay = new Date(
+                          const firstDayDate = new Date(Date.UTC(
                             currentDate.getFullYear(),
                             currentDate.getMonth() + monthIdx,
                             1
-                          ).getDay();
+                          ));
+                          const firstDay = firstDayDate.getUTCDay();
                           const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1;
                           return idx < adjustedFirstDay ? (
                             <div key={`empty-${idx}`} />
                           ) : null;
                         })}
                         {monthData.map((day, dayIdx) => {
-                          const date = new Date(currentDate.getFullYear(), currentDate.getMonth() + monthIdx, dayIdx + 1);
+                          const date = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth() + monthIdx, dayIdx + 1));
                           const dateStr = getLocalDateString(date);
                           const isBooked = day.booked >= day.total;
                           const isSelected = checkIn === dateStr || checkOut === dateStr;
                           const isInRange = checkIn && checkOut && dateStr > checkIn && dateStr < checkOut;
-                          const isToday = getLocalDateString(new Date()) === dateStr;
+                          const today = new Date();
+                          const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+                          const isToday = todayStr === dateStr;
 
                           return (
                             <button
