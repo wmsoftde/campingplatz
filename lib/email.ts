@@ -63,13 +63,11 @@ export async function sendEmail(to: string, subject: string, html: string): Prom
   });
 
   try {
-    console.log(`Attempting to send email to ${to} from "${emailSettings.siteName}" <${emailSettings.smtpFrom}>`);
+    const fromString = `"${emailSettings.siteName}" <${emailSettings.smtpFrom}>`;
+    console.log(`Attempting to send email to ${to} from ${fromString}`);
     
     const info = await transporter.sendMail({
-      from: {
-        name: emailSettings.siteName,
-        address: emailSettings.smtpFrom
-      },
+      from: fromString,
       to,
       subject,
       html
