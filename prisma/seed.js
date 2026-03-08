@@ -30,7 +30,13 @@ async function main() {
       priceElectricity: 3.00,
       latitude: 51.5,
       longitude: 10.0,
-      mapZoom: 13
+      mapZoom: 13,
+      emailConfirmDe: 'Vielen Dank für Ihre Buchungsanfrage! Wir werden diese in Kürze prüfen.',
+      emailConfirmEn: 'Thank you for your booking request! We will review it shortly.',
+      emailCancelDe: 'Ihre Buchungsanfrage wurde storniert.',
+      emailCancelEn: 'Your booking request has been cancelled.',
+      emailRejectDe: 'Ihre Buchungsanfrage wurde abgelehnt.',
+      emailRejectEn: 'Your booking request has been rejected.'
     }
   });
 
@@ -204,7 +210,7 @@ async function main() {
     const navLinks = [
       { labelDe: 'Über uns', labelEn: 'About us', url: '/about', position: 0, location: 'navbar' },
       { labelDe: 'Preise & Infos', labelEn: 'Prices & Info', url: '/prices', position: 1, location: 'navbar' },
-      { labelDe: 'Buchung', labelEn: 'Booking', url: '/calendar', position: 2, location: 'navbar' },
+      { labelDe: 'Buchungsanfrage', labelEn: 'Booking Request', url: '/calendar', position: 2, location: 'navbar' },
       { labelDe: 'Neuigkeiten', labelEn: 'News', url: '/blog', position: 3, location: 'navbar' },
       { labelDe: 'Kontakt', labelEn: 'Contact', url: '/contact', position: 4, location: 'navbar' },
     ];

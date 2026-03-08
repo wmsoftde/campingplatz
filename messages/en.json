@@ -3,7 +3,7 @@
     "home": "Home",
     "about": "About us",
     "prices": "Prices & Info",
-    "calendar": "Booking",
+    "calendar": "Booking Request",
     "blog": "News",
     "contact": "Contact",
     "admin": "Admin"
@@ -11,7 +11,7 @@
   "home": {
     "heroTitle": "Welcome to our campsite",
     "heroSubtitle": "The family-friendly campsite near the cathedral city of COLOGNE!",
-    "cta": "Book now",
+    "cta": "Request now",
     "features": {
       "title": "What we offer",
       "nature": {
@@ -43,7 +43,7 @@
     "info": "Important information"
   },
   "calendar": {
-    "title": "Booking Calendar",
+    "title": "Booking Request Calendar",
     "subtitle": "Choose your stay",
     "available": "available",
     "booked": "booked",
@@ -56,9 +56,9 @@
     "options": "Options",
     "electricity": "Electricity required",
     "price": "Total price",
-    "submit": "Submit booking",
-    "success": "Thank you for your booking!",
-    "successDesc": "We have received your booking and will process it shortly. You will receive a confirmation email.",
+    "submit": "Submit booking request",
+    "success": "Thank you for your booking request!",
+    "successDesc": "We have received your booking request and will process it shortly. You will receive a confirmation email.",
     "form": {
       "firstName": "First name",
       "lastName": "Last name",

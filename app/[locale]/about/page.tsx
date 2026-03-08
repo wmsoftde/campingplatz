@@ -70,8 +70,8 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                   </p>
                   <p className="text-gray-600">
                     {locale === 'de' 
-                      ? <>Für die Reservierung eines Stellplatzes können Reisende und Touristen unser <Link href={`/${locale}/calendar`} className="text-primary font-bold hover:underline">Online-Buchungssystem</Link> nutzen.</>
-                      : <>Travelers and tourists can use our <Link href={`/${locale}/calendar`} className="text-primary font-bold hover:underline">online booking system</Link> to reserve a pitch.</>
+                      ? <>Für die Reservierung eines Stellplatzes können Reisende und Touristen unser <Link href={`/${locale}/calendar`} className="text-primary font-bold hover:underline">Online-Buchungsanfragesystem</Link> nutzen.</>
+                      : <>Travelers and tourists can use our <Link href={`/${locale}/calendar`} className="text-primary font-bold hover:underline">online booking request system</Link> to reserve a pitch.</>
                     }
                   </p>
                 </div>

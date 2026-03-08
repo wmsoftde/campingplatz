@@ -3,7 +3,7 @@
     "home": "Startseite",
     "about": "Über uns",
     "prices": "Preise & Infos",
-    "calendar": "Buchung",
+    "calendar": "Buchungsanfrage",
     "blog": "Neuigkeiten",
     "contact": "Kontakt",
     "admin": "Admin"
@@ -11,7 +11,7 @@
   "home": {
     "heroTitle": "Willkommen auf unserem Campingplatz",
     "heroSubtitle": "Der familienfreundliche Campingplatz in der Nähe der Domstadt KÖLN!",
-    "cta": "Jetzt buchen",
+    "cta": "Jetzt anfragen",
     "features": {
       "title": "Was wir bieten",
       "nature": {
@@ -43,7 +43,7 @@
     "info": "Wichtige Informationen"
   },
   "calendar": {
-    "title": "Buchungskalender",
+    "title": "Kalender für Buchungsanfragen",
     "subtitle": "Wählen Sie Ihren Aufenthalt",
     "available": "verfügbar",
     "booked": "belegt",
@@ -56,9 +56,9 @@
     "options": "Optionen",
     "electricity": "Stromanschluss gewünscht",
     "price": "Gesamtpreis",
-    "submit": "Buchung absenden",
-    "success": "Vielen Dank für Ihre Buchung!",
-    "successDesc": "Wir haben Ihre Buchung erhalten und werden sie in Kürze bearbeiten. Sie erhalten eine Bestätigung per E-Mail.",
+    "submit": "Buchungsanfrage absenden",
+    "success": "Vielen Dank für Ihre Buchungsanfrage!",
+    "successDesc": "Wir haben Ihre Buchungsanfrage erhalten und werden sie in Kürze bearbeiten. Sie erhalten eine Bestätigung per E-Mail.",
     "form": {
       "firstName": "Vorname",
       "lastName": "Nachname",

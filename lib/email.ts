@@ -96,10 +96,10 @@ export async function sendBookingConfirmation(booking: any, locale: string = 'de
   if (!settings) return;
 
   const template = locale === 'de' ? settings.emailConfirmDe : settings.emailConfirmEn;
-  const subject = locale === 'de' ? 'Buchungsbestätigung - Camping im Sülztal' : 'Booking Confirmation - Camping im Sülztal';
+  const subject = locale === 'de' ? 'Eingang Ihrer Buchungsanfrage - Camping im Sülztal' : 'Booking Request Received - Camping im Sülztal';
 
   const bookingDetails = `
-    <h2>Buchungsdetails / Booking Details:</h2>
+    <h2>Details Ihrer Buchungsanfrage / Booking Request Details:</h2>
     <ul>
       <li><strong>Name:</strong> ${booking.firstName} ${booking.lastName}</li>
       <li><strong>Anreise / Check-In:</strong> ${formatDate(booking.checkIn)}</li>
@@ -151,15 +151,15 @@ export async function sendBookingStatusUpdate(
   switch (status) {
     case 'confirmed':
       template = locale === 'de' ? settings.emailConfirmDe : settings.emailConfirmEn;
-      subject = locale === 'de' ? 'Buchung bestätigt - Camping im Sülztal' : 'Booking confirmed - Camping im Sülztal';
+      subject = locale === 'de' ? 'Buchungsanfrage bestätigt - Camping im Sülztal' : 'Booking request confirmed - Camping im Sülztal';
       break;
     case 'cancelled':
       template = locale === 'de' ? settings.emailCancelDe : settings.emailCancelEn;
-      subject = locale === 'de' ? 'Buchung storniert - Camping im Sülztal' : 'Booking cancelled - Camping im Sülztal';
+      subject = locale === 'de' ? 'Buchungsanfrage storniert - Camping im Sülztal' : 'Booking request cancelled - Camping im Sülztal';
       break;
     case 'rejected':
       template = locale === 'de' ? settings.emailRejectDe : settings.emailRejectEn;
-      subject = locale === 'de' ? 'Buchung abgelehnt - Camping im Sülztal' : 'Booking rejected - Camping im Sülztal';
+      subject = locale === 'de' ? 'Buchungsanfrage abgelehnt - Camping im Sülztal' : 'Booking request rejected - Camping im Sülztal';
       break;
   }
 
