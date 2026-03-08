@@ -56,27 +56,61 @@ export default function BookingsPage() {
   };
 
   const exportCSV = () => {
-    const headers = ['Name', 'E-Mail', 'Telefon', 'Erwachsene', 'Kinder', 'Strom', 'Check-In', 'Check-Out', 'Preis', 'Status', 'Datum'];
-    const rows = bookings.map(b => [
-      `${b.firstName} ${b.lastName}`,
-      b.email,
-      b.phone,
-      b.adults,
-      b.children,
-      b.electricity ? 'Ja' : 'Nein',
-      new Date(b.checkIn).toLocaleDateString('de-DE'),
-      new Date(b.checkOut).toLocaleDateString('de-DE'),
-      b.totalPrice,
-      b.status,
-      new Date(b.createdAt).toLocaleDateString('de-DE')
-    ]);
+    const headers = [
+      'Buchungsnummer', 
+      'Gast', 
+      'E-Mail', 
+      'Telefon', 
+      'Erwachsene', 
+      'Kinder', 
+      'Plätze', 
+      'Zelt < 4 Pers.', 
+      'Strom', 
+      'Vorkasse', 
+      'Check-In', 
+      'Check-Out', 
+      'Status', 
+      'Datum', 
+      'Gesamtpreis', 
+      'Gezahlt'
+    ];
 
-    const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
+    const rows = bookings.map(b => {
+      let gezahlt = 0;
+      if (b.status === 'confirmed') {
+        gezahlt = b.prepayment ? b.totalPrice : b.totalPrice * 0.3;
+      }
+
+      return [
+        b.bookingNumber || 'N/A',
+        `${b.firstName} ${b.lastName}`,
+        b.email,
+        `"${b.phone}"`, // Quote phone to prevent Excel issues
+        b.adults,
+        b.children,
+        b.pitchCount || 1,
+        b.smallTent ? 'Ja' : 'Nein',
+        b.electricity ? 'Ja' : 'Nein',
+        b.prepayment ? 'Ja' : 'Nein',
+        new Date(b.checkIn).toLocaleDateString('de-DE'),
+        new Date(b.checkOut).toLocaleDateString('de-DE'),
+        b.status,
+        new Date(b.createdAt).toLocaleDateString('de-DE'),
+        b.totalPrice.toFixed(2).replace('.', ','),
+        gezahlt.toFixed(2).replace('.', ',')
+      ];
+    });
+
+    const csvContent = [
+      headers.join(';'), 
+      ...rows.map(row => row.join(';'))
+    ].join('\n');
+
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'buchungen.csv';
+    a.download = `buchungen_${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
   };
 
