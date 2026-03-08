@@ -7,50 +7,71 @@ interface EmailSettings {
   smtpUser: string;
   smtpPassword: string;
   smtpFrom: string;
+  siteEmail: string;
 }
 
 export async function getEmailSettings(): Promise<EmailSettings | null> {
-  const settings = await prisma.settings.findFirst();
+  const settings = await prisma.settings.findUnique({
+    where: { id: 'default' }
+  });
+  
   if (!settings?.smtpHost || !settings?.smtpFrom) {
+    console.error('Email settings incomplete:', { 
+      host: !!settings?.smtpHost, 
+      from: !!settings?.smtpFrom 
+    });
     return null;
   }
+  
   return {
     smtpHost: settings.smtpHost,
     smtpPort: settings.smtpPort,
     smtpUser: settings.smtpUser,
     smtpPassword: settings.smtpPassword,
-    smtpFrom: settings.smtpFrom
+    smtpFrom: settings.smtpFrom,
+    siteEmail: settings.email // This is the campsite's own email address
   };
 }
 
-export async function sendEmail(to: string, subject: string, html: string) {
+export async function sendEmail(to: string, subject: string, html: string): Promise<{ success: boolean; messageId?: string; error?: string }> {
   const emailSettings = await getEmailSettings();
   
   if (!emailSettings) {
-    console.log('Email not configured, skipping send:', { to, subject });
-    return;
+    const err = 'Email not configured in database';
+    console.error(err, 'skipping send to:', to);
+    return { success: false, error: err };
   }
+
+  const port = parseInt(emailSettings.smtpPort) || 587;
+  // Use secure: true for port 465, false for others (like 587 with STARTTLS)
+  const isSecure = port === 465;
 
   const transporter = nodemailer.createTransport({
     host: emailSettings.smtpHost,
-    port: parseInt(emailSettings.smtpPort) || 587,
-    secure: false,
+    port: port,
+    secure: isSecure,
     auth: {
       user: emailSettings.smtpUser,
       pass: emailSettings.smtpPassword
+    },
+    tls: {
+      // Do not fail on invalid certs (common on shared hosting)
+      rejectUnauthorized: false
     }
   });
 
   try {
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: emailSettings.smtpFrom,
       to,
       subject,
       html
     });
-    console.log('Email sent:', { to, subject });
-  } catch (error) {
-    console.error('Email send error:', error);
+    console.log('Email successfully sent to:', to, 'MessageID:', info.messageId);
+    return { success: true, messageId: info.messageId };
+  } catch (error: any) {
+    console.error('CRITICAL: Email send error for recipient', to, ':', error);
+    return { success: false, error: error.message || String(error) };
   }
 }
 
@@ -63,27 +84,49 @@ function formatDate(date: Date | string) {
 }
 
 export async function sendBookingConfirmation(booking: any, locale: string = 'de') {
-  const settings = await prisma.settings.findFirst();
+  const settings = await prisma.settings.findUnique({
+    where: { id: 'default' }
+  });
+  
   if (!settings) return;
 
   const template = locale === 'de' ? settings.emailConfirmDe : settings.emailConfirmEn;
-  const subject = locale === 'de' ? 'Buchungsbestätigung' : 'Booking Confirmation';
+  const subject = locale === 'de' ? 'Buchungsbestätigung - Camping im Sülztal' : 'Booking Confirmation - Camping im Sülztal';
 
-  const html = `
-    <h1>${subject}</h1>
-    <p>${template}</p>
-    <h2>Buchungsdetails:</h2>
+  const bookingDetails = `
+    <h2>Buchungsdetails / Booking Details:</h2>
     <ul>
-      <li>Name: ${booking.firstName} ${booking.lastName}</li>
-      <li>Anreise: ${formatDate(booking.checkIn)}</li>
-      <li>Abreise: ${formatDate(booking.checkOut)}</li>
-      <li>Erwachsene: ${booking.adults}</li>
-      <li>Kinder: ${booking.children}</li>
-      <li>Gesamtpreis: €${booking.totalPrice.toFixed(2)}</li>
+      <li><strong>Name:</strong> ${booking.firstName} ${booking.lastName}</li>
+      <li><strong>Anreise / Check-In:</strong> ${formatDate(booking.checkIn)}</li>
+      <li><strong>Abreise / Check-Out:</strong> ${formatDate(booking.checkOut)}</li>
+      <li><strong>Erwachsene / Adults:</strong> ${booking.adults}</li>
+      <li><strong>Kinder / Children:</strong> ${booking.children}</li>
+      <li><strong>Strom / Electricity:</strong> ${booking.electricity ? (locale === 'de' ? 'Ja' : 'Yes') : (locale === 'de' ? 'Nein' : 'No')}</li>
+      <li><strong>Gesamtpreis / Total Price:</strong> €${booking.totalPrice.toFixed(2)}</li>
     </ul>
+    <p><strong>Telefon:</strong> ${booking.phone}</p>
+    <p><strong>E-Mail:</strong> ${booking.email}</p>
   `;
 
-  await sendEmail(booking.email, subject, html);
+  // 1. Send to Guest
+  const htmlGuest = `
+    <h1>${subject}</h1>
+    <p>${template}</p>
+    ${bookingDetails}
+  `;
+  await sendEmail(booking.email, subject, htmlGuest);
+
+  // 2. Send Notification to Campsite Owner (if email is set)
+  if (settings.email) {
+    const subjectAdmin = `NEUE BUCHUNGSANFRAGE: ${booking.firstName} ${booking.lastName}`;
+    const htmlAdmin = `
+      <h1>Neue Buchungsanfrage</h1>
+      <p>Es ist eine neue Buchungsanfrage über die Website eingegangen:</p>
+      ${bookingDetails}
+      <p><a href="${process.env.NEXT_PUBLIC_BASE_URL || ''}/admin/bookings">Hier klicken, um Buchungen im Admin-Bereich zu verwalten</a></p>
+    `;
+    await sendEmail(settings.email, subjectAdmin, htmlAdmin);
+  }
 }
 
 export async function sendBookingStatusUpdate(
@@ -91,7 +134,10 @@ export async function sendBookingStatusUpdate(
   status: 'confirmed' | 'cancelled' | 'rejected',
   locale: string = 'de'
 ) {
-  const settings = await prisma.settings.findFirst();
+  const settings = await prisma.settings.findUnique({
+    where: { id: 'default' }
+  });
+  
   if (!settings) return;
 
   let template = '';
@@ -100,26 +146,27 @@ export async function sendBookingStatusUpdate(
   switch (status) {
     case 'confirmed':
       template = locale === 'de' ? settings.emailConfirmDe : settings.emailConfirmEn;
-      subject = locale === 'de' ? 'Buchung bestätigt' : 'Booking confirmed';
+      subject = locale === 'de' ? 'Buchung bestätigt - Camping im Sülztal' : 'Booking confirmed - Camping im Sülztal';
       break;
     case 'cancelled':
       template = locale === 'de' ? settings.emailCancelDe : settings.emailCancelEn;
-      subject = locale === 'de' ? 'Buchung storniert' : 'Booking cancelled';
+      subject = locale === 'de' ? 'Buchung storniert - Camping im Sülztal' : 'Booking cancelled - Camping im Sülztal';
       break;
     case 'rejected':
       template = locale === 'de' ? settings.emailRejectDe : settings.emailRejectEn;
-      subject = locale === 'de' ? 'Buchung abgelehnt' : 'Booking rejected';
+      subject = locale === 'de' ? 'Buchung abgelehnt - Camping im Sülztal' : 'Booking rejected - Camping im Sülztal';
       break;
   }
 
   const html = `
     <h1>${subject}</h1>
     <p>${template}</p>
-    <h2>Buchungsdetails:</h2>
+    <h2>Details:</h2>
     <ul>
       <li>Name: ${booking.firstName} ${booking.lastName}</li>
       <li>Anreise: ${formatDate(booking.checkIn)}</li>
       <li>Abreise: ${formatDate(booking.checkOut)}</li>
+      <li>Status: <strong>${status}</strong></li>
     </ul>
   `;
 

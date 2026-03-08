@@ -34,6 +34,8 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [testingEmail, setTestingEmail] = useState(false);
+  const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
 
   useEffect(() => {
     fetch('/api/settings')
@@ -57,6 +59,35 @@ export default function SettingsPage() {
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
+  };
+
+  const handleTestEmail = async () => {
+    if (!settings || !settings.email) {
+      alert('Bitte geben Sie zuerst eine E-Mail-Adresse unter "Allgemeine Einstellungen" an, an die der Test gesendet werden soll.');
+      return;
+    }
+    
+    setTestingEmail(true);
+    setTestResult(null);
+    
+    try {
+      const res = await fetch('/api/admin/settings/test-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: settings.email })
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        setTestResult({ success: true, message: 'Test-E-Mail wurde erfolgreich versendet!' });
+      } else {
+        setTestResult({ success: false, message: 'Fehler: ' + (data.error || 'Unbekannter SMTP-Fehler') });
+      }
+    } catch (error) {
+      setTestResult({ success: false, message: 'Netzwerkfehler beim Senden des Tests.' });
+    } finally {
+      setTestingEmail(false);
+    }
   };
 
   if (loading) return <div className="text-center py-12">Laden...</div>;
@@ -254,9 +285,25 @@ Englisch)
         </div>
 
         <div className="bg-white rounded-xl p-6 shadow-sm">
-          <h2 className="font-heading text-xl font-bold text-primary mb-6">
-            SMTP-Einstellungen
-          </h2>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="font-heading text-xl font-bold text-primary">
+              SMTP-Einstellungen
+            </h2>
+            <button
+              onClick={handleTestEmail}
+              disabled={testingEmail || !settings.smtpHost}
+              className="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+            >
+              {testingEmail ? 'Sende Test...' : 'Test-E-Mail senden'}
+            </button>
+          </div>
+          
+          {testResult && (
+            <div className={`mb-6 p-4 rounded-lg text-sm ${testResult.success ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+              {testResult.message}
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
