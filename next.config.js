@@ -17,6 +17,13 @@ const nextConfig = {
       bodySizeLimit: '10mb',
     },
   },
+  webpack: (config, { dev, isServer }) => {
+    // Disable persistent caching on CI/Shared Hosting if needed
+    if (!dev) {
+      config.cache = false;
+    }
+    return config;
+  },
 };
 
 module.exports = withNextIntl(nextConfig);

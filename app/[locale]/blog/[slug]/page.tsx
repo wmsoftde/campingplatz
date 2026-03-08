@@ -5,6 +5,8 @@ import { prisma } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function BlogPostPage({ 
   params 
 }: { 
