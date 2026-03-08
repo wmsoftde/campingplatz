@@ -464,9 +464,10 @@ export default function BookingPage() {
                           value={checkIn || ''}
                           onChange={(e) => setCheckIn(e.target.value)}
                           min={getLocalDateString(new Date())}
-                          className="input-field pl-10"
+                          className="input-field appearance-none"
+                          style={{ color: 'transparent' }}
                         />
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-medium">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-700 text-sm pointer-events-none">
                           {checkIn ? formatDisplayDate(checkIn) : 'TT.MM.JJJJ'}
                         </div>
                       </div>
@@ -481,9 +482,10 @@ export default function BookingPage() {
                           value={checkOut || ''}
                           onChange={(e) => setCheckOut(e.target.value)}
                           min={checkIn || getLocalDateString(new Date())}
-                          className="input-field pl-10"
+                          className="input-field appearance-none"
+                          style={{ color: 'transparent' }}
                         />
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-medium">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-700 text-sm pointer-events-none">
                           {checkOut ? formatDisplayDate(checkOut) : 'TT.MM.JJJJ'}
                         </div>
                       </div>
@@ -697,7 +699,15 @@ export default function BookingPage() {
       <Footer locale={locale} />
       
       <style jsx global>{`
-        /* Hide default date icon but keep input functional */
+        /* Hide default date text and placeholder */
+        input[type="date"]::-webkit-datetime-edit,
+        input[type="date"]::-webkit-inner-spin-button,
+        input[type="date"]::-webkit-clear-button {
+          display: none;
+          -webkit-appearance: none;
+        }
+        
+        /* Hide default date icon but keep input functional and covering the whole area */
         input[type="date"]::-webkit-calendar-picker-indicator {
           background: transparent;
           bottom: 0;
@@ -709,6 +719,12 @@ export default function BookingPage() {
           right: 0;
           top: 0;
           width: auto;
+          z-index: 2;
+        }
+
+        /* Ensure input text is always transparent */
+        input[type="date"] {
+          color: transparent !important;
         }
       `}</style>
     </>
