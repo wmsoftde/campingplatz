@@ -176,11 +176,12 @@ export async function sendBookingStatusUpdate(
 
   let template = '';
   let subject = '';
+  let isConfirmed = status === 'confirmed';
 
   switch (status) {
     case 'confirmed':
       template = locale === 'de' ? settings.emailConfirmDe : settings.emailConfirmEn;
-      subject = locale === 'de' ? 'Buchungsanfrage bestätigt - Camping im Sülztal' : 'Booking request confirmed - Camping im Sülztal';
+      subject = locale === 'de' ? 'Buchung bestätigt.' : 'Booking confirmed.';
       break;
     case 'cancelled':
       template = locale === 'de' ? settings.emailCancelDe : settings.emailCancelEn;
@@ -192,17 +193,42 @@ export async function sendBookingStatusUpdate(
       break;
   }
 
-  const html = `
-    <h1>${subject}</h1>
-    <p>${template}</p>
-    <h2>Details:</h2>
+  const bookingDetails = `
+    <h2>${locale === 'de' ? 'Details Ihrer Buchung' : 'Booking Details'}:</h2>
     <ul>
-      <li>Name: ${booking.firstName} ${booking.lastName}</li>
-      <li>Anreise: ${formatDate(booking.checkIn)}</li>
-      <li>Abreise: ${formatDate(booking.checkOut)}</li>
-      <li>Status: <strong>${status}</strong></li>
+      <li><strong>Name:</strong> ${booking.firstName} ${booking.lastName}</li>
+      <li><strong>${locale === 'de' ? 'Anreise' : 'Check-In'}:</strong> ${formatDate(booking.checkIn)}</li>
+      <li><strong>${locale === 'de' ? 'Abreise' : 'Check-Out'}:</strong> ${formatDate(booking.checkOut)}</li>
+      <li><strong>${locale === 'de' ? 'Erwachsene' : 'Adults'}:</strong> ${booking.adults}</li>
+      <li><strong>${locale === 'de' ? 'Kinder' : 'Children'}:</strong> ${booking.children}</li>
+      <li><strong>${locale === 'de' ? 'Gesamtpreis' : 'Total Price'}:</strong> €${booking.totalPrice.toFixed(2)}</li>
     </ul>
   `;
 
+  const footer = `
+    <div style="margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+      <p>${locale === 'de' ? 'Mit freundlichen Grüßen' : 'Best regards'},</p>
+      <p>
+        <strong>Camping im Sülztal</strong><br>
+        Helmgesmühle<br>
+        53797 Lohmar
+      </p>
+    </div>
+  `;
+
+  const html = `
+    <h1>${subject}</h1>
+    <p>${isConfirmed && locale === 'de' ? 'Vielen Dank für Ihre Buchung!' : template}</p>
+    ${bookingDetails}
+    ${footer}
+  `;
+
+  // Send to Guest
   await sendEmail(booking.email, subject, html);
+
+  // If confirmed, also send copy to campsite
+  if (isConfirmed && settings.email) {
+    const adminSubject = `KOPIE: Buchung bestätigt - ${booking.firstName} ${booking.lastName}`;
+    await sendEmail(settings.email, adminSubject, html);
+  }
 }
