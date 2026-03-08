@@ -8,6 +8,7 @@ interface EmailSettings {
   smtpPassword: string;
   smtpFrom: string;
   siteEmail: string;
+  siteName: string;
 }
 
 export async function getEmailSettings(): Promise<EmailSettings | null> {
@@ -29,7 +30,8 @@ export async function getEmailSettings(): Promise<EmailSettings | null> {
     smtpUser: settings.smtpUser,
     smtpPassword: settings.smtpPassword,
     smtpFrom: settings.smtpFrom,
-    siteEmail: settings.email // This is the campsite's own email address
+    siteEmail: settings.email, // This is the campsite's own email address
+    siteName: settings.siteNameDe || 'Campingplatz'
   };
 }
 
@@ -62,7 +64,7 @@ export async function sendEmail(to: string, subject: string, html: string): Prom
 
   try {
     const info = await transporter.sendMail({
-      from: emailSettings.smtpFrom,
+      from: `"${emailSettings.siteName}" <${emailSettings.smtpFrom}>`,
       to,
       subject,
       html
