@@ -4,12 +4,16 @@ import { useState, useEffect } from 'react';
 
 interface Booking {
   id: string;
+  bookingNumber: string;
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   adults: number;
   children: number;
+  pitchCount: number;
+  smallTent: boolean;
+  prepayment: boolean;
   electricity: boolean;
   checkIn: string;
   checkOut: string;
@@ -115,9 +119,9 @@ export default function BookingsPage() {
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="text-left py-4 px-6 font-medium text-gray-600">Gast</th>
+                  <th className="text-left py-4 px-6 font-medium text-gray-600">ID / Gast</th>
                   <th className="text-left py-4 px-6 font-medium text-gray-600">Datum</th>
-                  <th className="text-left py-4 px-6 font-medium text-gray-600">Gäste</th>
+                  <th className="text-left py-4 px-6 font-medium text-gray-600">Gäste / Plätze</th>
                   <th className="text-left py-4 px-6 font-medium text-gray-600">Preis</th>
                   <th className="text-left py-4 px-6 font-medium text-gray-600">Status</th>
                   <th className="text-right py-4 px-6 font-medium text-gray-600">Aktionen</th>
@@ -127,22 +131,22 @@ export default function BookingsPage() {
                 {bookings.map((booking) => (
                   <tr key={booking.id} className="border-t hover:bg-gray-50">
                     <td className="py-4 px-6">
+                      <div className="font-bold text-primary">{booking.bookingNumber || 'N/A'}</div>
                       <div className="font-medium">{booking.firstName} {booking.lastName}</div>
-                      <div className="text-sm text-gray-500">{booking.email}</div>
-                      <div className="text-sm text-gray-500">{booking.phone}</div>
+                      <div className="text-xs text-gray-500">{booking.email}</div>
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="py-4 px-6 text-sm">
                       <div>{new Date(booking.checkIn).toLocaleDateString('de-DE')}</div>
-                      <div className="text-sm text-gray-500">→ {new Date(booking.checkOut).toLocaleDateString('de-DE')}</div>
+                      <div className="text-gray-500">bis {new Date(booking.checkOut).toLocaleDateString('de-DE')}</div>
                     </td>
-                    <td className="py-4 px-6">
-                      <div>{booking.adults} Erw.</div>
-                      {booking.children > 0 && (
-                        <div className="text-sm text-gray-500">{booking.children} Kinder</div>
-                      )}
-                      {booking.electricity && (
-                        <div className="text-sm text-yellow-600">⚡ Strom</div>
-                      )}
+                    <td className="py-4 px-6 text-sm">
+                      <div>{booking.adults} Erw. / {booking.children} Kind.</div>
+                      <div className="font-medium text-gray-600">{booking.pitchCount || 1} Stellplatz</div>
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {booking.electricity && <span className="text-[10px] bg-yellow-100 text-yellow-800 px-1 rounded">⚡ Strom</span>}
+                        {booking.smallTent && <span className="text-[10px] bg-blue-100 text-blue-800 px-1 rounded">⛺ Zelt</span>}
+                        {booking.prepayment && <span className="text-[10px] bg-purple-100 text-purple-800 px-1 rounded">💰 Vorkasse</span>}
+                      </div>
                     </td>
                     <td className="py-4 px-6 font-semibold">
                       €{booking.totalPrice.toFixed(2)}

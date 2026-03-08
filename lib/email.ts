@@ -66,13 +66,19 @@ export async function sendEmail(to: string, subject: string, html: string): Prom
     const fromString = `"${emailSettings.siteName}" <${emailSettings.smtpFrom}>`;
     console.log(`Attempting to send email to ${to} from ${fromString}`);
     
+    // Campsite always gets a copy
+    const recipients = [to];
+    if (emailSettings.siteEmail && to !== emailSettings.siteEmail) {
+      recipients.push(emailSettings.siteEmail);
+    }
+
     const info = await transporter.sendMail({
       from: fromString,
-      to,
+      to: recipients.join(', '), // Send to both customer and campsite
       subject,
       html
     });
-    console.log('Email successfully sent to:', to, 'MessageID:', info.messageId);
+    console.log('Email successfully sent to:', recipients.join(', '), 'MessageID:', info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error: any) {
     console.error('CRITICAL: Email send error for recipient', to, ':', error);
@@ -96,16 +102,18 @@ export async function sendBookingConfirmation(booking: any, locale: string = 'de
   if (!settings) return;
 
   const template = locale === 'de' ? settings.emailConfirmDe : settings.emailConfirmEn;
-  const subject = locale === 'de' ? 'Eingang Ihrer Buchungsanfrage - Camping im Sülztal' : 'Booking Request Received - Camping im Sülztal';
+  const subject = locale === 'de' ? `Eingang Ihrer Buchungsanfrage ${booking.bookingNumber} - Camping im Sülztal` : `Booking Request Received ${booking.bookingNumber} - Camping im Sülztal`;
 
   const bookingDetails = `
     <h2>${locale === 'de' ? 'Details Ihrer Buchungsanfrage' : 'Booking Request Details'}:</h2>
     <ul>
+      <li><strong>Buchungsnummer:</strong> ${booking.bookingNumber}</li>
       <li><strong>Name:</strong> ${booking.firstName} ${booking.lastName}</li>
       <li><strong>${locale === 'de' ? 'Anreise' : 'Check-In'}:</strong> ${formatDate(booking.checkIn)}</li>
       <li><strong>${locale === 'de' ? 'Abreise' : 'Check-Out'}:</strong> ${formatDate(booking.checkOut)}</li>
       <li><strong>${locale === 'de' ? 'Erwachsene' : 'Adults'}:</strong> ${booking.adults}</li>
       <li><strong>${locale === 'de' ? 'Kinder' : 'Children'}:</strong> ${booking.children}</li>
+      <li><strong>${locale === 'de' ? 'Stellplätze' : 'Pitches'}:</strong> ${booking.pitchCount || 1}</li>
       <li><strong>${locale === 'de' ? 'Strom' : 'Electricity'}:</strong> ${booking.electricity ? (locale === 'de' ? 'Ja' : 'Yes') : (locale === 'de' ? 'Nein' : 'No')}</li>
       <li><strong>${locale === 'de' ? 'Gesamtpreis' : 'Total Price'}:</strong> €${booking.totalPrice.toFixed(2)}</li>
     </ul>
@@ -119,8 +127,9 @@ export async function sendBookingConfirmation(booking: any, locale: string = 'de
           : 'Please note that the payment / deposit must be received in our account within 3 days after your booking request, otherwise your request will be automatically rejected or deleted by the system.'}
       </p>
       
-      <p><strong>${locale === 'de' ? 'Überweisen Sie Ihre (An-)Zahlung an' : 'Please transfer your (down) payment to'}:</strong></p>
+      <p><strong>${locale === 'de' ? 'Überweisen Sie Ihre (An-)Zahlung unter Angabe der Buchungsnummer an' : 'Please transfer your (down) payment stating the booking number to'}:</strong></p>
       <p style="font-family: monospace;">
+        Zweck: ${booking.bookingNumber}<br>
         Wolfgang Mueckl<br>
         IBAN: DE60 5001 0517 6000 3238 61<br>
         BIC: INGDDEFFXXX<br>
@@ -181,21 +190,22 @@ export async function sendBookingStatusUpdate(
   switch (status) {
     case 'confirmed':
       template = locale === 'de' ? settings.emailConfirmDe : settings.emailConfirmEn;
-      subject = locale === 'de' ? 'Buchung bestätigt.' : 'Booking confirmed.';
+      subject = locale === 'de' ? `Buchung bestätigt. ${booking.bookingNumber}` : `Booking confirmed. ${booking.bookingNumber}`;
       break;
     case 'cancelled':
       template = locale === 'de' ? settings.emailCancelDe : settings.emailCancelEn;
-      subject = locale === 'de' ? 'Buchungsanfrage storniert - Camping im Sülztal' : 'Booking request cancelled - Camping im Sülztal';
+      subject = locale === 'de' ? `Buchungsanfrage storniert ${booking.bookingNumber} - Camping im Sülztal` : `Booking request cancelled ${booking.bookingNumber} - Camping im Sülztal`;
       break;
     case 'rejected':
       template = locale === 'de' ? settings.emailRejectDe : settings.emailRejectEn;
-      subject = locale === 'de' ? 'Buchungsanfrage abgelehnt - Camping im Sülztal' : 'Booking request rejected - Camping im Sülztal';
+      subject = locale === 'de' ? `Buchungsanfrage abgelehnt ${booking.bookingNumber} - Camping im Sülztal` : `Booking request rejected ${booking.bookingNumber} - Camping im Sülztal`;
       break;
   }
 
   const bookingDetails = `
     <h2>${locale === 'de' ? 'Details Ihrer Buchung' : 'Booking Details'}:</h2>
     <ul>
+      <li><strong>Buchungsnummer:</strong> ${booking.bookingNumber}</li>
       <li><strong>Name:</strong> ${booking.firstName} ${booking.lastName}</li>
       <li><strong>${locale === 'de' ? 'Anreise' : 'Check-In'}:</strong> ${formatDate(booking.checkIn)}</li>
       <li><strong>${locale === 'de' ? 'Abreise' : 'Check-Out'}:</strong> ${formatDate(booking.checkOut)}</li>

@@ -16,6 +16,8 @@ interface Settings {
   latitude: number;
   longitude: number;
   mapZoom: number;
+  nextBookingNumber: number;
+  bookingYear: number;
   smtpHost: string;
   smtpPort: string;
   smtpUser: string;
@@ -168,6 +170,38 @@ Englisch)
                 onChange={(e) => setSettings({ ...settings, address: e.target.value })}
                 className="input-field"
               />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h2 className="font-heading text-xl font-bold text-primary mb-6">
+            Buchungsnummern-Format
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Nächste Buchungsnummer
+              </label>
+              <input
+                type="number"
+                value={settings.nextBookingNumber}
+                onChange={(e) => setSettings({ ...settings, nextBookingNumber: parseInt(e.target.value) || 1 })}
+                className="input-field"
+              />
+              <p className="text-xs text-gray-500 mt-1">Wird als 001, 002 etc. formatiert</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Aktuelles Jahr
+              </label>
+              <input
+                type="number"
+                value={settings.bookingYear}
+                onChange={(e) => setSettings({ ...settings, bookingYear: parseInt(e.target.value) || 2026 })}
+                className="input-field"
+              />
+              <p className="text-xs text-gray-500 mt-1">Beispiel: 001-2026</p>
             </div>
           </div>
         </div>

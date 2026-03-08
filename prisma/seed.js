@@ -31,6 +31,8 @@ async function main() {
       latitude: 51.5,
       longitude: 10.0,
       mapZoom: 13,
+      nextBookingNumber: 1,
+      bookingYear: 2026,
       emailConfirmDe: 'Vielen Dank für Ihre Buchungsanfrage! Wir werden diese in Kürze prüfen.',
       emailConfirmEn: 'Thank you for your booking request! We will review it shortly.',
       emailCancelDe: 'Ihre Buchungsanfrage wurde storniert.',

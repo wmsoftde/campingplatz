@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, Check, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, X, Info } from 'lucide-react';
 import clsx from 'clsx';
 
 interface DayData {
@@ -41,10 +41,15 @@ export default function BookingPage() {
   const [checkOut, setCheckOut] = useState<string | null>(null);
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
+  const [pitchCount, setPitchCount] = useState(1);
+  const [smallTent, setSmallTent] = useState(false);
+  const [prepayment, setPrepayment] = useState(false);
   const [electricity, setElectricity] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [bookingNumber, setBookingNumber] = useState<string | null>(null);
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -83,6 +88,7 @@ export default function BookingPage() {
     fetchThreeMonths();
   }, [currentDate, fetchMonthData]);
 
+  // Comprehensive Price Calculation
   useEffect(() => {
     if (!checkIn || !checkOut || !settings) return;
 
@@ -90,15 +96,34 @@ export default function BookingPage() {
     const end = new Date(checkOut);
     const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
     
-    const pricePerDay = settings.pricePlace + 
+    if (days <= 0) return;
+
+    let currentPitchPrice = settings.pricePlace;
+
+    // 1. Small Tent Discount (-40%)
+    if (smallTent) {
+      currentPitchPrice *= 0.6;
+    }
+
+    // 2. Prepayment Discount (-15%)
+    if (prepayment) {
+      currentPitchPrice *= 0.85;
+    }
+
+    // 3. Duration Discounts
+    if (days > 30) {
+      currentPitchPrice *= 0.8; // -20% for > 1 month
+    } else if (days > 7) {
+      currentPitchPrice *= 0.9; // -10% for > 1 week
+    }
+
+    const pricePerDay = (currentPitchPrice * pitchCount) + 
       (adults * settings.priceAdult) + 
-      (children * settings.priceChild);
+      (children * settings.priceChild) +
+      (electricity ? settings.priceElectricity : 0);
     
-    const electricityCost = electricity ? settings.priceElectricity : 0;
-    const total = (pricePerDay + electricityCost) * days;
-    
-    setTotalPrice(total);
-  }, [checkIn, checkOut, adults, children, electricity, settings]);
+    setTotalPrice(pricePerDay * days);
+  }, [checkIn, checkOut, adults, children, pitchCount, smallTent, prepayment, electricity, settings]);
 
   const handlePrevMonth = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
@@ -113,6 +138,12 @@ export default function BookingPage() {
     const month = String(date.getUTCMonth() + 1).padStart(2, '0');
     const day = String(date.getUTCDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
+  };
+
+  const formatDisplayDate = (dateStr: string | null) => {
+    if (!dateStr) return '';
+    const [y, m, d] = dateStr.split('-');
+    return `${d}.${m}.${y}`;
   };
 
   const handleDayClick = (dateStr: string, booked: number, total: number) => {
@@ -170,6 +201,9 @@ export default function BookingPage() {
           checkOut,
           adults,
           children,
+          pitchCount,
+          smallTent,
+          prepayment,
           electricity,
           totalPrice,
           locale
@@ -177,6 +211,8 @@ export default function BookingPage() {
       });
       
       if (response.ok) {
+        const data = await response.json();
+        setBookingNumber(data.bookingNumber);
         setSuccess(true);
       }
     } catch (error) {
@@ -200,9 +236,16 @@ export default function BookingPage() {
                 <h1 className="font-heading text-3xl font-bold text-primary mb-4">
                   {t('success')}
                 </h1>
-                <p className="text-gray-600 mb-8">
-                  {t('successDesc')}
-                </p>
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-green-100 mb-8">
+                  <p className="text-gray-600 mb-4">
+                    {t('successDesc')}
+                  </p>
+                  {bookingNumber && (
+                    <div className="text-lg font-bold text-primary">
+                      {locale === 'de' ? 'Ihre Buchungsnummer:' : 'Your Booking Number:'} {bookingNumber}
+                    </div>
+                  )}
+                </div>
                 <Link href={`/${locale}`} className="btn-primary">
                   {locale === 'de' ? 'Zurück zur Startseite' : 'Back to home'}
                 </Link>
@@ -252,41 +295,42 @@ export default function BookingPage() {
           <div className="container-custom">
             {/* Info Box for Short-term Renters */}
             <div className="bg-white border-l-4 border-primary rounded-xl p-8 shadow-sm mb-12">
-              <h2 className="font-heading text-2xl font-bold text-primary mb-4">
-                {locale === 'de' ? 'Kurzzeitmieter' : 'Short-term Renters'}
+              <h2 className="font-heading text-2xl font-bold text-primary mb-4 flex items-center gap-2">
+                <Info className="w-6 h-6" />
+                {locale === 'de' ? 'Informationen für Kurzzeitmieter' : 'Information for Short-term Renters'}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-700 leading-relaxed">
                 <div className="space-y-4 text-sm">
                   <p className="font-semibold text-base">
                     {locale === 'de' 
-                      ? 'Buchung von Stellplätzen für Kurzzeitmieter, hier können Sie ihren Campingstellplatz buchen.'
-                      : 'Booking of pitches for short-term renters, here you can book your camping pitch.'
+                      ? 'Hier können Sie Ihren Campingstellplatz direkt online anfragen.'
+                      : 'Here you can request your camping pitch directly online.'
                     }
                   </p>
                   <p>
                     {locale === 'de' 
-                      ? 'Im Kalender werden die noch zur Verfügung stehenden Stellplätze für Caravan/Wohnwagen/Zelt inklusive der aktuellen Tagespreise angezeigt. Wählen sie erst im Feld Anreise und Abreise den gewünschten Zeitraum und geben sie danach die gewünschten Optionen an. Alternativ kann die Eingabe durch Markieren auf dem Kalender erfolgen.'
-                      : 'The calendar shows the available pitches for caravan/trailer/tent including current daily prices. First select the desired period in the check-in and check-out fields and then specify the desired options. Alternatively, you can enter dates by marking them on the calendar.'
+                      ? 'Im Kalender werden die noch zur Verfügung stehenden Stellplätze für Caravan/Wohnwagen/Zelt inklusive der aktuellen Tagespreise angezeigt. Wählen Sie den gewünschten Zeitraum durch Markieren im Kalender oder über die Datumsfelder.'
+                      : 'The calendar shows available pitches for caravan/trailer/tent including current daily prices. Select your desired period by marking the calendar or using the date fields.'
                     }
                   </p>
                   <p>
                     {locale === 'de' 
-                      ? 'Geben Sie die Anzahl der Personen und eventuell Kinder unter 16 Jahren an. Falls Sie mit einem weiteren Caravan/Wohnwagen/Zelt anreisen wollen, können Sie dies unter dem Punkt „No book items“ angeben. Sollten Sie nur mit einem kleinen Zelt unterwegs sein z.B. 1-4 Personen Zelt dann wählen Sie bitte als zusätzliche Option kleines Zelt – dadurch wird ein Nachlass auf den Stellplatzpreis berechnet.'
-                      : 'Specify the number of people and any children under 16. If you want to arrive with another caravan/trailer/tent, you can specify this under "No book items". If you are only traveling with a small tent, e.g. 1-4 person tent, please select small tent as an additional option – this will calculate a discount on the pitch price.'
+                      ? 'Geben Sie die Anzahl der Personen an. Falls Sie mit mehreren Einheiten (z.B. 2 Wohnwagen) anreisen, erhöhen Sie bitte die Anzahl der Stellplätze. Für kleine Zelte (1-4 Personen) wählen Sie bitte die entsprechende Option für einen Preisnachlass.'
+                      : 'Enter the number of people. If you are arriving with multiple units (e.g., 2 caravans), please increase the number of pitches. For small tents (1-4 people), please select the corresponding option for a discount.'
                     }
                   </p>
                   <p>
                     {locale === 'de' 
-                      ? 'Des Weiteren bieten wir ein pauschales Strompaket zum Tagespreis an. Vorteil keine lange Wartezeiten bei Abreise. Alternativ ist die Versorgung mit Strom über Zählerabrechnung möglich, zu den in der Preisliste genannten Konditionen.'
-                      : 'Furthermore, we offer a flat-rate electricity package at a daily price. Advantage: no long waiting times on departure. Alternatively, electricity supply via meter billing is possible, at the conditions mentioned in the price list.'
+                      ? 'Wir bieten ein pauschales Strompaket an (keine Wartezeit bei Abreise). Alternativ ist die Abrechnung nach Zähler möglich.'
+                      : 'We offer a flat-rate electricity package (no waiting time on departure). Alternatively, billing by meter is possible.'
                     }
                   </p>
                 </div>
                 <div className="space-y-4 text-sm">
                   <p>
                     {locale === 'de' 
-                      ? 'Bei Vorauszahlung des gesamten Mietpreises gewähren wir einen Nachlass in Höhe von 15% auf den Grundpreis. Dies müssten Sie unter „Vorkasse“ anklicken. Für längere Mietdauer größer eine Woche oder Monat sind entsprechende Nachlässe im Buchungssystem enthalten.'
-                      : 'If the total rent is paid in advance, we grant a discount of 15% on the basic price. You would have to click on "Prepayment" for this. For longer rental periods of more than a week or month, corresponding discounts are included in the booking system.'
+                      ? 'Bei Vorauszahlung (Vorkasse) des gesamten Betrags gewähren wir 15% Nachlass auf den Stellplatzpreis. Längere Aufenthalte (> 1 Woche: 10%, > 1 Monat: 20%) werden automatisch rabattiert.'
+                      : 'For prepayment of the total amount, we grant a 15% discount on the pitch price. Longer stays (> 1 week: 10%, > 1 month: 20%) are automatically discounted.'
                     }
                   </p>
                   <div className="bg-primary/5 p-4 rounded-lg border border-primary/10">
@@ -296,19 +340,20 @@ export default function BookingPage() {
                     <p className="font-mono text-xs">
                       Wolfgang Mueckl<br />
                       IBAN: DE60 5001 0517 6000 3238 61<br />
-                      BIC: INGDDEFFXXX
+                      BIC: INGDDEFFXXX<br />
+                      Bank: ING Bank
                     </p>
                   </div>
                   <p className="text-red-600 font-medium italic">
                     {locale === 'de' 
-                      ? 'Bitte beachten Sie, dass die Zahlung / Anzahlung innerhalb von 3 Tagen nach Ihrer Buchungsanfrage auf unserem Konto eingegangen sein muss, sonst wird Ihre Anfrage vom System automatisch zurückgewiesen bzw. gelöscht.'
-                      : 'Please note that the payment / deposit must be received in our account within 3 days after your booking request, otherwise your request will be automatically rejected or deleted by the system.'
+                      ? 'Die (An-)Zahlung muss innerhalb von 3 Tagen eingegangen sein, sonst wird die Anfrage automatisch gelöscht. Geben Sie bitte immer Ihre Buchungsnummer als Verwendungszweck an.'
+                      : 'The (down) payment must be received within 3 days, otherwise the request will be automatically deleted. Please always state your booking number as the payment reference.'
                     }
                   </p>
                   <p className="text-xs text-gray-500">
                     {locale === 'de' 
-                      ? 'Bitte beachten Sie unsere AGB. Eine verbindliche Buchung kommt erst durch eine min. 30% Anzahlung und unsere Bestätigung zustande. Eine eventuell erforderliche Restzahlung erfolgt bei Anreise vor Ort beim Platzwart in bar. Andere Zahlweisen sind nicht verfügbar.'
-                      : 'Please note our GTC. A binding booking is only concluded with a minimum 30% deposit and our confirmation. Any remaining payment required will be made in cash on site to the site manager upon arrival. Other payment methods are not available.'
+                      ? 'Eine verbindliche Buchung kommt erst durch min. 30% Anzahlung und unsere Bestätigung zustande. Restzahlung vor Ort nur in Bar möglich.'
+                      : 'A binding booking is only concluded with a minimum 30% deposit and our confirmation. Remaining payment on site only possible in cash.'
                     }
                   </p>
                 </div>
@@ -335,16 +380,16 @@ export default function BookingPage() {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {months.map((monthData, monthIdx) => (
-                    <div key={monthIdx}>
-                      <h3 className="font-heading text-sm font-semibold text-gray-600 mb-2 text-center">
+                    <div key={monthIdx} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                      <h3 className="font-heading text-sm font-semibold text-primary mb-4 text-center border-b pb-2">
                         {getMonthName(new Date(currentDate.getFullYear(), currentDate.getMonth() + monthIdx, 1).getMonth())}
                       </h3>
-                      <div className="grid grid-cols-7 gap-1 text-xs">
+                      <div className="grid grid-cols-7 gap-1 text-[10px]">
                         {weekDays.map((day, idx) => (
-                          <div key={idx} className="text-center py-1 text-gray-400 font-medium">
-                            {day}
+                          <div key={idx} className="text-center py-1 text-gray-400 font-bold uppercase">
+                            {day.substring(0, 2)}
                           </div>
                         ))}
                         {Array.from({ length: 7 }).map((_, idx) => {
@@ -372,24 +417,26 @@ export default function BookingPage() {
                           return (
                             <button
                               key={dayIdx}
+                              type="button"
                               onClick={() => handleDayClick(dateStr, day.booked, day.total)}
                               disabled={isBooked}
                               className={clsx(
-                                'p-1 rounded text-center transition-all',
-                                isBooked && 'bg-gray-100 text-gray-400 cursor-not-allowed',
-                                !isBooked && isSelected && 'bg-primary text-white',
-                                !isBooked && isInRange && 'bg-primary/20',
-                                !isBooked && !isSelected && !isInRange && 'hover:bg-primary/10'
+                                'relative p-1 rounded flex flex-col items-center justify-center transition-all min-h-[40px]',
+                                isBooked && 'bg-gray-100 text-gray-300 cursor-not-allowed',
+                                !isBooked && isSelected && 'bg-primary text-white z-10 scale-110 shadow-md',
+                                !isBooked && isInRange && 'bg-primary/20 text-primary-dark',
+                                !isBooked && !isSelected && !isInRange && 'hover:bg-primary/10',
+                                isToday && !isSelected && 'ring-1 ring-accent ring-inset'
                               )}
                             >
-                              <div className="font-medium">{dayIdx + 1}</div>
+                              <span className="font-bold text-xs">{dayIdx + 1}</span>
                               {!isBooked && (
-                                <div className={clsx(
-                                  'text-[8px]',
-                                  isSelected || isInRange ? 'text-white/80' : 'text-gray-500'
+                                <span className={clsx(
+                                  'text-[7px] mt-0.5',
+                                  isSelected || isInRange ? 'text-white/80' : 'text-gray-400'
                                 )}>
-                                  {day.total - day.booked}/{day.total}
-                                </div>
+                                  {day.total - day.booked} {locale === 'de' ? 'frei' : 'free'}
+                                </span>
                               )}
                             </button>
                           );
@@ -401,55 +448,80 @@ export default function BookingPage() {
               </div>
 
               <div>
-                <form onSubmit={handleSubmit} className="card p-6 space-y-4">
-                  <h3 className="font-heading text-lg font-bold text-primary mb-4">
+                <form onSubmit={handleSubmit} className="card p-6 space-y-4 sticky top-20">
+                  <h3 className="font-heading text-lg font-bold text-primary mb-4 border-b pb-2">
                     {t('selectDates')}
                   </h3>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-3">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
                         {t('checkIn')}
                       </label>
+                      <div className="relative">
+                        <input
+                          type="date"
+                          value={checkIn || ''}
+                          onChange={(e) => setCheckIn(e.target.value)}
+                          min={getLocalDateString(new Date())}
+                          className="input-field pl-10"
+                        />
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-medium">
+                          {checkIn ? formatDisplayDate(checkIn) : 'TT.MM.JJJJ'}
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                        {t('checkOut')}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="date"
+                          value={checkOut || ''}
+                          onChange={(e) => setCheckOut(e.target.value)}
+                          min={checkIn || getLocalDateString(new Date())}
+                          className="input-field pl-10"
+                        />
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs font-medium">
+                          {checkOut ? formatDisplayDate(checkOut) : 'TT.MM.JJJJ'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {errors.dates && <p className="text-red-500 text-xs font-medium">{errors.dates}</p>}
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                        {locale === 'de' ? 'Stellplätze' : 'Pitches'}
+                      </label>
                       <input
-                        type="date"
-                        value={checkIn || ''}
-                        onChange={(e) => setCheckIn(e.target.value)}
-                        min={getLocalDateString(new Date())}
+                        type="number"
+                        min="1"
+                        max="10"
+                        value={pitchCount}
+                        onChange={(e) => setPitchCount(parseInt(e.target.value) || 1)}
                         className="input-field"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        {t('checkOut')}
+                      <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                        {t('adults')}
                       </label>
                       <input
-                        type="date"
-                        value={checkOut || ''}
-                        onChange={(e) => setCheckOut(e.target.value)}
-                        min={checkIn || getLocalDateString(new Date())}
+                        type="number"
+                        min="1"
+                        value={adults}
+                        onChange={(e) => setAdults(parseInt(e.target.value) || 1)}
                         className="input-field"
                       />
                     </div>
                   </div>
-                  {errors.dates && <p className="text-red-500 text-sm">{errors.dates}</p>}
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {t('adults')}
-                    </label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={adults}
-                      onChange={(e) => setAdults(parseInt(e.target.value) || 1)}
-                      className="input-field"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {t('children')}
+                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                      {t('children')} ({locale === 'de' ? 'unter 16' : 'under 16'})
                     </label>
                     <input
                       type="number"
@@ -460,159 +532,158 @@ export default function BookingPage() {
                     />
                   </div>
 
-                  <div>
-                    <label className="flex items-center space-x-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={electricity}
-                        onChange={(e) => setElectricity(e.target.checked)}
-                        className="w-4 h-4 text-primary"
-                      />
-                      <span className="text-sm text-gray-700">{t('electricity')}</span>
+                  <div className="space-y-2 pt-2">
+                    <label className="flex items-center space-x-3 cursor-pointer group">
+                      <div className="relative flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={smallTent}
+                          onChange={(e) => setSmallTent(e.target.checked)}
+                          className="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary"
+                        />
+                      </div>
+                      <span className="text-sm text-gray-700 group-hover:text-primary transition-colors">
+                        {locale === 'de' ? 'Kleines Zelt (< 4 Pers.) -40%' : 'Small tent (< 4 pers.) -40%'}
+                      </span>
+                    </label>
+
+                    <label className="flex items-center space-x-3 cursor-pointer group">
+                      <div className="relative flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={prepayment}
+                          onChange={(e) => setPrepayment(e.target.checked)}
+                          className="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary"
+                        />
+                      </div>
+                      <span className="text-sm text-gray-700 group-hover:text-primary transition-colors">
+                        {locale === 'de' ? 'Vorkasse (Rabatt 15%)' : 'Prepayment (15% discount)'}
+                      </span>
+                    </label>
+
+                    <label className="flex items-center space-x-3 cursor-pointer group">
+                      <div className="relative flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={electricity}
+                          onChange={(e) => setElectricity(e.target.checked)}
+                          className="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary"
+                        />
+                      </div>
+                      <span className="text-sm text-gray-700 group-hover:text-primary transition-colors">{t('electricity')}</span>
                     </label>
                   </div>
 
                   <hr className="my-4" />
 
-                  <h4 className="font-heading font-semibold text-primary">
+                  <h4 className="font-heading font-semibold text-primary text-sm uppercase tracking-wider">
                     {locale === 'de' ? 'Persönliche Daten' : 'Personal details'}
                   </h4>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        {tForm('firstName')} *
-                      </label>
                       <input
                         type="text"
+                        placeholder={tForm('firstName')}
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                        className="input-field"
+                        className="input-field text-sm"
                       />
-                      {errors.firstName && <p className="text-red-500 text-xs">{errors.firstName}</p>}
+                      {errors.firstName && <p className="text-red-500 text-[10px]">{errors.firstName}</p>}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        {tForm('lastName')} *
-                      </label>
                       <input
                         type="text"
+                        placeholder={tForm('lastName')}
                         value={formData.lastName}
                         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                        className="input-field"
+                        className="input-field text-sm"
                       />
-                      {errors.lastName && <p className="text-red-500 text-xs">{errors.lastName}</p>}
+                      {errors.lastName && <p className="text-red-500 text-[10px]">{errors.lastName}</p>}
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {tForm('street')} *
-                    </label>
+                  <input
+                    type="text"
+                    placeholder={tForm('street')}
+                    value={formData.street}
+                    onChange={(e) => setFormData({ ...formData, street: e.target.value })}
+                    className="input-field text-sm"
+                  />
+                  {errors.street && <p className="text-red-500 text-[10px]">{errors.street}</p>}
+
+                  <div className="grid grid-cols-3 gap-3">
                     <input
                       type="text"
-                      value={formData.street}
-                      onChange={(e) => setFormData({ ...formData, street: e.target.value })}
-                      className="input-field"
+                      placeholder={tForm('postalCode')}
+                      value={formData.postalCode}
+                      onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
+                      className="input-field text-sm"
                     />
-                    {errors.street && <p className="text-red-500 text-xs">{errors.street}</p>}
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        {tForm('postalCode')} *
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.postalCode}
-                        onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
-                        className="input-field"
-                      />
-                      {errors.postalCode && <p className="text-red-500 text-xs">{errors.postalCode}</p>}
-                    </div>
                     <div className="col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        {tForm('city')} *
-                      </label>
                       <input
                         type="text"
+                        placeholder={tForm('city')}
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        className="input-field"
+                        className="input-field text-sm"
                       />
-                      {errors.city && <p className="text-red-500 text-xs">{errors.city}</p>}
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {tForm('country')}
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.country}
-                      onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                      className="input-field"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {tForm('phone')} *
-                    </label>
+                  <div className="grid grid-cols-1 gap-3">
                     <input
                       type="tel"
+                      placeholder={tForm('phone')}
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="input-field"
+                      className="input-field text-sm"
                     />
-                    {errors.phone && <p className="text-red-500 text-xs">{errors.phone}</p>}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {tForm('email')} *
-                    </label>
+                    {errors.phone && <p className="text-red-500 text-[10px]">{errors.phone}</p>}
+                    
                     <input
                       type="email"
+                      placeholder={tForm('email')}
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="input-field"
+                      className="input-field text-sm"
                     />
-                    {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
+                    {errors.email && <p className="text-red-500 text-[10px]">{errors.email}</p>}
                   </div>
 
-                  <div>
+                  <div className="pt-2">
                     <label className="flex items-start space-x-2 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={formData.agb}
                         onChange={(e) => setFormData({ ...formData, agb: e.target.checked })}
-                        className="w-4 h-4 mt-1 text-primary"
+                        className="w-4 h-4 mt-0.5 text-primary"
                       />
-                      <span className="text-sm text-gray-600">
-                        Ich akzeptiere die <Link href={locale === 'de' ? '/de/agb' : '/en/agb'} className="text-primary hover:underline">AGB</Link> und den <Link href={locale === 'de' ? '/de/datenschutz' : '/en/privacy'} className="text-primary hover:underline">{locale === 'de' ? 'Datenschutz' : 'Privacy Policy'}</Link>
+                      <span className="text-[11px] text-gray-500 leading-tight">
+                        Ich akzeptiere die <Link href={locale === 'de' ? '/de/agb' : '/en/agb'} target="_blank" className="text-primary hover:underline">AGB</Link> und den <Link href={locale === 'de' ? '/de/datenschutz' : '/en/privacy'} target="_blank" className="text-primary hover:underline">{locale === 'de' ? 'Datenschutz' : 'Privacy'}</Link>
                       </span>
                     </label>
-                    {errors.agb && <p className="text-red-500 text-xs">{errors.agb}</p>}
+                    {errors.agb && <p className="text-red-500 text-[10px] mt-1">{errors.agb}</p>}
                   </div>
 
                   {checkIn && checkOut && (
-                    <div className="bg-primary/10 p-4 rounded-lg">
+                    <div className="bg-primary/5 p-4 rounded-xl border border-primary/10">
                       <div className="flex justify-between items-center">
-                        <span className="font-semibold">{t('price')}:</span>
-                        <span className="text-2xl font-bold text-primary">
+                        <span className="text-sm font-bold text-gray-600 uppercase">{t('price')}:</span>
+                        <span className="text-2xl font-black text-primary">
                           €{totalPrice.toFixed(2)}
                         </span>
                       </div>
+                      <p className="text-[10px] text-gray-400 mt-1 text-center italic">
+                        {locale === 'de' ? 'Inkl. aller gewählten Nachlässe' : 'Incl. all selected discounts'}
+                      </p>
                     </div>
                   )}
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="btn-primary w-full disabled:opacity-50"
+                    className="btn-primary w-full py-4 text-lg shadow-lg hover:shadow-xl disabled:opacity-50 transition-all"
                   >
                     {loading ? '...' : t('submit')}
                   </button>
@@ -624,6 +695,22 @@ export default function BookingPage() {
       </main>
 
       <Footer locale={locale} />
+      
+      <style jsx global>{`
+        /* Hide default date icon but keep input functional */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+          background: transparent;
+          bottom: 0;
+          color: transparent;
+          cursor: pointer;
+          height: auto;
+          left: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: auto;
+        }
+      `}</style>
     </>
   );
 }

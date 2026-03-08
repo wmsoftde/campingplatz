@@ -46,6 +46,7 @@ model Post {
 
 model Booking {
   id              String   @id @default(cuid())
+  bookingNumber   String?  @unique
   firstName       String
   lastName        String
   street          String
@@ -56,6 +57,9 @@ model Booking {
   email           String
   adults          Int
   children        Int
+  pitchCount      Int      @default(1)
+  smallTent       Boolean  @default(false)
+  prepayment      Boolean  @default(false)
   electricity     Boolean  @default(false)
   checkIn         DateTime
   checkOut        DateTime
@@ -83,6 +87,9 @@ model Settings {
   latitude              Float   @default(51.5)
   longitude             Float   @default(10.0)
   mapZoom               Int     @default(13)
+  
+  nextBookingNumber     Int     @default(1)
+  bookingYear           Int     @default(2026)
   
   smtpHost              String  @default("")
   smtpPort              String  @default("587")
