@@ -40,11 +40,6 @@ export function Navigation({ locale }: { locale: string }) {
       .catch(console.error);
   }, [locale]);
 
-  // Only home is static, all other links come from database
-  const staticHome = [
-    { href: `/${locale}`, label: t('home'), position: -1 }
-  ];
-
   const dynamicItems = navLinks
     .filter(l => !l.parentId)
     .sort((a, b) => a.position - b.position)
@@ -54,7 +49,7 @@ export function Navigation({ locale }: { locale: string }) {
       position: link.position
     }));
 
-  const navItems = [...staticHome, ...dynamicItems];
+  const navItems = [...dynamicItems];
 
   const isActive = (href: string) => pathname === href;
 
