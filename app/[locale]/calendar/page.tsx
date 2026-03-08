@@ -250,6 +250,71 @@ export default function BookingPage() {
 
         <section className="py-12">
           <div className="container-custom">
+            {/* Info Box for Short-term Renters */}
+            <div className="bg-white border-l-4 border-primary rounded-xl p-8 shadow-sm mb-12">
+              <h2 className="font-heading text-2xl font-bold text-primary mb-4">
+                {locale === 'de' ? 'Kurzzeitmieter' : 'Short-term Renters'}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-700 leading-relaxed">
+                <div className="space-y-4 text-sm">
+                  <p className="font-semibold text-base">
+                    {locale === 'de' 
+                      ? 'Buchung von Stellplätzen für Kurzzeitmieter, hier können Sie ihren Campingstellplatz buchen.'
+                      : 'Booking of pitches for short-term renters, here you can book your camping pitch.'
+                    }
+                  </p>
+                  <p>
+                    {locale === 'de' 
+                      ? 'Im Kalender werden die noch zur Verfügung stehenden Stellplätze für Caravan/Wohnwagen/Zelt inklusive der aktuellen Tagespreise angezeigt. Wählen sie erst im Feld Anreise und Abreise den gewünschten Zeitraum und geben sie danach die gewünschten Optionen an. Alternativ kann die Eingabe durch Markieren auf dem Kalender erfolgen.'
+                      : 'The calendar shows the available pitches for caravan/trailer/tent including current daily prices. First select the desired period in the check-in and check-out fields and then specify the desired options. Alternatively, you can enter dates by marking them on the calendar.'
+                    }
+                  </p>
+                  <p>
+                    {locale === 'de' 
+                      ? 'Geben Sie die Anzahl der Personen und eventuell Kinder unter 16 Jahren an. Falls Sie mit einem weiteren Caravan/Wohnwagen/Zelt anreisen wollen, können Sie dies unter dem Punkt „No book items“ angeben. Sollten Sie nur mit einem kleinen Zelt unterwegs sein z.B. 1-4 Personen Zelt dann wählen Sie bitte als zusätzliche Option kleines Zelt – dadurch wird ein Nachlass auf den Stellplatzpreis berechnet.'
+                      : 'Specify the number of people and any children under 16. If you want to arrive with another caravan/trailer/tent, you can specify this under "No book items". If you are only traveling with a small tent, e.g. 1-4 person tent, please select small tent as an additional option – this will calculate a discount on the pitch price.'
+                    }
+                  </p>
+                  <p>
+                    {locale === 'de' 
+                      ? 'Des Weiteren bieten wir ein pauschales Strompaket zum Tagespreis an. Vorteil keine lange Wartezeiten bei Abreise. Alternativ ist die Versorgung mit Strom über Zählerabrechnung möglich, zu den in der Preisliste genannten Konditionen.'
+                      : 'Furthermore, we offer a flat-rate electricity package at a daily price. Advantage: no long waiting times on departure. Alternatively, electricity supply via meter billing is possible, at the conditions mentioned in the price list.'
+                    }
+                  </p>
+                </div>
+                <div className="space-y-4 text-sm">
+                  <p>
+                    {locale === 'de' 
+                      ? 'Bei Vorauszahlung des gesamten Mietpreises gewähren wir einen Nachlass in Höhe von 15% auf den Grundpreis. Dies müssten Sie unter „Vorkasse“ anklicken. Für längere Mietdauer größer eine Woche oder Monat sind entsprechende Nachlässe im Buchungssystem enthalten.'
+                      : 'If the total rent is paid in advance, we grant a discount of 15% on the basic price. You would have to click on "Prepayment" for this. For longer rental periods of more than a week or month, corresponding discounts are included in the booking system.'
+                    }
+                  </p>
+                  <div className="bg-primary/5 p-4 rounded-lg border border-primary/10">
+                    <p className="font-semibold mb-2">
+                      {locale === 'de' ? 'Zahlungsinformationen:' : 'Payment Information:'}
+                    </p>
+                    <p className="font-mono text-xs">
+                      Wolfgang Mueckl<br />
+                      IBAN: DE60 5001 0517 6000 3238 61<br />
+                      BIC: INGDDEFFXXX
+                    </p>
+                  </div>
+                  <p className="text-red-600 font-medium italic">
+                    {locale === 'de' 
+                      ? 'Bitte beachten Sie, dass die Zahlung / Anzahlung innerhalb von 3 Tagen nach Ihrer Buchungsanfrage auf unserem Konto eingegangen sein muss, sonst wird Ihre Anfrage vom System automatisch zurückgewiesen bzw. gelöscht.'
+                      : 'Please note that the payment / deposit must be received in our account within 3 days after your booking request, otherwise your request will be automatically rejected or deleted by the system.'
+                    }
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {locale === 'de' 
+                      ? 'Bitte beachten Sie unsere AGB. Eine verbindliche Buchung kommt erst durch eine min. 30% Anzahlung und unsere Bestätigung zustande. Eine eventuell erforderliche Restzahlung erfolgt bei Anreise vor Ort beim Platzwart in bar. Andere Zahlweisen sind nicht verfügbar.'
+                      : 'Please note our GTC. A binding booking is only concluded with a minimum 30% deposit and our confirmation. Any remaining payment required will be made in cash on site to the site manager upon arrival. Other payment methods are not available.'
+                    }
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <div className="flex items-center justify-between mb-6">
