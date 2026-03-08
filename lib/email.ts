@@ -99,18 +99,47 @@ export async function sendBookingConfirmation(booking: any, locale: string = 'de
   const subject = locale === 'de' ? 'Eingang Ihrer Buchungsanfrage - Camping im Sülztal' : 'Booking Request Received - Camping im Sülztal';
 
   const bookingDetails = `
-    <h2>Details Ihrer Buchungsanfrage / Booking Request Details:</h2>
+    <h2>${locale === 'de' ? 'Details Ihrer Buchungsanfrage' : 'Booking Request Details'}:</h2>
     <ul>
       <li><strong>Name:</strong> ${booking.firstName} ${booking.lastName}</li>
-      <li><strong>Anreise / Check-In:</strong> ${formatDate(booking.checkIn)}</li>
-      <li><strong>Abreise / Check-Out:</strong> ${formatDate(booking.checkOut)}</li>
-      <li><strong>Erwachsene / Adults:</strong> ${booking.adults}</li>
-      <li><strong>Kinder / Children:</strong> ${booking.children}</li>
-      <li><strong>Strom / Electricity:</strong> ${booking.electricity ? (locale === 'de' ? 'Ja' : 'Yes') : (locale === 'de' ? 'Nein' : 'No')}</li>
-      <li><strong>Gesamtpreis / Total Price:</strong> €${booking.totalPrice.toFixed(2)}</li>
+      <li><strong>${locale === 'de' ? 'Anreise' : 'Check-In'}:</strong> ${formatDate(booking.checkIn)}</li>
+      <li><strong>${locale === 'de' ? 'Abreise' : 'Check-Out'}:</strong> ${formatDate(booking.checkOut)}</li>
+      <li><strong>${locale === 'de' ? 'Erwachsene' : 'Adults'}:</strong> ${booking.adults}</li>
+      <li><strong>${locale === 'de' ? 'Kinder' : 'Children'}:</strong> ${booking.children}</li>
+      <li><strong>${locale === 'de' ? 'Strom' : 'Electricity'}:</strong> ${booking.electricity ? (locale === 'de' ? 'Ja' : 'Yes') : (locale === 'de' ? 'Nein' : 'No')}</li>
+      <li><strong>${locale === 'de' ? 'Gesamtpreis' : 'Total Price'}:</strong> €${booking.totalPrice.toFixed(2)}</li>
     </ul>
     <p><strong>Telefon:</strong> ${booking.phone}</p>
     <p><strong>E-Mail:</strong> ${booking.email}</p>
+    
+    <div style="margin-top: 20px; padding: 15px; border: 1px solid #e2e8f0; background-color: #f8fafc; border-radius: 8px;">
+      <p style="color: #c53030; font-weight: bold;">
+        ${locale === 'de' 
+          ? 'Bitte beachten Sie, dass die Zahlung / Anzahlung innerhalb von 3 Tagen nach Ihrer Buchungsanfrage auf unserem Konto eingegangen sein muss, sonst wird Ihre Anfrage vom System automatisch zurückgewiesen bzw. gelöscht.'
+          : 'Please note that the payment / deposit must be received in our account within 3 days after your booking request, otherwise your request will be automatically rejected or deleted by the system.'}
+      </p>
+      
+      <p><strong>${locale === 'de' ? 'Überweisen Sie Ihre (An-)Zahlung an' : 'Please transfer your (down) payment to'}:</strong></p>
+      <p style="font-family: monospace;">
+        Wolfgang Mueckl<br>
+        IBAN: DE60 5001 0517 6000 3238 61<br>
+        BIC: INGDDEFFXXX<br>
+        ING Bank
+      </p>
+      
+      <p>${locale === 'de' ? 'Mit freundlichen Grüßen' : 'Best regards'},</p>
+      <p>
+        <strong>Camping im Sülztal</strong><br>
+        Helmgesmühle<br>
+        53797 Lohmar
+      </p>
+      
+      <p style="font-style: italic; border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 10px;">
+        ${locale === 'de' 
+          ? 'Bitte beachten Sie, dass eine verbindliche Buchung erst nach Zahlungseingang zustande kommt!<br>Nach Zahlungseingang werden Sie per E-Mail benachrichtigt.'
+          : 'Please note that a binding booking is only concluded after receipt of payment!<br>After receipt of payment, you will be notified by email.'}
+      </p>
+    </div>
   `;
 
   // 1. Send to Guest
