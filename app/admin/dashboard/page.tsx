@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/db';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
   const totalBookings = await prisma.booking.count();
   const pendingBookings = await prisma.booking.count({
