@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import clsx from 'clsx';
 
 interface NavLink {
   id: string;
@@ -102,27 +103,47 @@ export default function NavigationPage() {
   const navbarLinks = links.filter(l => l.location === 'navbar').sort((a, b) => a.position - b.position);
   const footerLinks = links.filter(l => l.location === 'footer').sort((a, b) => a.position - b.position);
 
-  const renderLinks = (items: NavLink[]) => {
+  const renderLinks = (allLinks: NavLink[], items: NavLink[], level = 0) => {
     return items.map((link) => (
-      <div key={link.id} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
-        <div className="flex-1">
-          <div className="font-medium">{link.labelDe}</div>
-          <div className="text-sm text-gray-500">{link.url}</div>
+      <div key={link.id} className="space-y-2">
+        <div className={clsx(
+          "flex items-center gap-2 p-2 bg-gray-50 rounded border-l-4",
+          level > 0 ? "border-primary/30 ml-8" : "border-primary"
+        )}>
+          <div className="flex-1">
+            <div className="font-medium">
+              {level > 0 && <span className="text-gray-400 mr-2">↳</span>}
+              {link.labelDe}
+            </div>
+            <div className="text-sm text-gray-500">{link.url}</div>
+          </div>
+          <div className="flex gap-1">
+            <button onClick={() => moveLink(link.id, 'up')} className="p-1 text-gray-500 hover:text-primary" title="Nach oben">
+              ↑
+            </button>
+            <button onClick={() => moveLink(link.id, 'down')} className="p-1 text-gray-500 hover:text-primary" title="Nach unten">
+              ↓
+            </button>
+            <button onClick={() => handleEdit(link)} className="p-1 text-blue-500 hover:text-blue-700">
+              Bearbeiten
+            </button>
+            <button onClick={() => handleDelete(link.id)} className="p-1 text-red-500 hover:text-red-700">
+              Löschen
+            </button>
+          </div>
         </div>
-        <div className="flex gap-1">
-          <button onClick={() => moveLink(link.id, 'up')} className="p-1 text-gray-500 hover:text-primary" title="Nach oben">
-            ↑
-          </button>
-          <button onClick={() => moveLink(link.id, 'down')} className="p-1 text-gray-500 hover:text-primary" title="Nach unten">
-            ↓
-          </button>
-          <button onClick={() => handleEdit(link)} className="p-1 text-blue-500 hover:text-blue-700">
-            Bearbeiten
-          </button>
-          <button onClick={() => handleDelete(link.id)} className="p-1 text-red-500 hover:text-red-700">
-            Löschen
-          </button>
-        </div>
+        {/* Render children recursively */}
+        {allLinks.filter(child => child.parentId === link.id).length > 0 && (
+          <div className="space-y-2">
+            {renderLinks(
+              allLinks,
+              allLinks
+                .filter(child => child.parentId === link.id)
+                .sort((a, b) => a.position - b.position),
+              level + 1
+            )}
+          </div>
+        )}
       </div>
     ));
   };
@@ -275,7 +296,10 @@ export default function NavigationPage() {
                 <p className="text-gray-500">Noch keine Links vorhanden.</p>
               ) : (
                 <div className="space-y-2">
-                  {renderLinks(navbarLinks.filter(l => !l.parentId))}
+                  {renderLinks(
+                    navbarLinks,
+                    navbarLinks.filter(l => !l.parentId)
+                  )}
                 </div>
               )}
             </div>
@@ -288,7 +312,10 @@ export default function NavigationPage() {
                 <p className="text-gray-500">Noch keine Links vorhanden.</p>
               ) : (
                 <div className="space-y-2">
-                  {renderLinks(footerLinks)}
+                  {renderLinks(
+                    footerLinks,
+                    footerLinks.filter(l => !l.parentId)
+                  )}
                 </div>
               )}
             </div>

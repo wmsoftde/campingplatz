@@ -53,14 +53,30 @@ export function Navigation({ locale }: { locale: string }) {
       .filter(l => !l.parentId)
       .sort((a, b) => a.position - b.position);
 
-    return rootLinks.map(link => {
-      const children = navLinks
+    // Guard against duplicate URLs/entries in the DB
+    const seenRoot = new Set<string>();
+    const uniqueRootLinks = rootLinks.filter((l) => {
+      const key = `${l.url}|${l.parentId || ''}`;
+      if (seenRoot.has(key)) return false;
+      seenRoot.add(key);
+      return true;
+    });
+
+    return uniqueRootLinks.map(link => {
+      const childrenRaw = navLinks
         .filter(child => child.parentId === link.id)
         .sort((a, b) => a.position - b.position)
         .map(child => ({
           href: child.url.startsWith('/') ? `/${locale}${child.url}` : child.url,
           label: locale === 'de' ? child.labelDe : child.labelEn,
         }));
+
+      const seenChild = new Set<string>();
+      const children = childrenRaw.filter((c) => {
+        if (seenChild.has(c.href)) return false;
+        seenChild.add(c.href);
+        return true;
+      });
 
       return {
         href: link.url.startsWith('/') ? `/${locale}${link.url}` : link.url,
@@ -113,16 +129,20 @@ export function Navigation({ locale }: { locale: string }) {
 
                 {item.children && (
                   <div className={clsx(
-                    "absolute top-full left-0 w-52 bg-white shadow-xl rounded-b-lg border-t-2 border-primary py-2 transition-all duration-200 transform origin-top-left z-50",
-                    activeDropdown === item.href ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
+                    "absolute top-full left-0 w-52 bg-white shadow-xl rounded-b-lg border-t-2 border-primary py-2 transition-[opacity,transform] duration-300 ease-out transform origin-top-left z-50",
+                    activeDropdown === item.href 
+                      ? "opacity-100 translate-y-0 scale-100 visible pointer-events-auto" 
+                      : "opacity-0 -translate-y-2 scale-95 invisible pointer-events-none"
                   )}>
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
                         href={child.href}
                         className={clsx(
-                          "block px-4 py-2 text-sm hover:bg-gray-50 transition-colors",
-                          isActive(child.href) ? "text-primary font-bold" : "text-gray-600 hover:text-primary"
+                          "block px-4 py-2 text-sm transition-colors",
+                          isActive(child.href) 
+                            ? "text-primary font-bold bg-primary/5" 
+                            : "text-gray-600 hover:text-primary hover:bg-gray-50"
                         )}
                       >
                         {child.label}
