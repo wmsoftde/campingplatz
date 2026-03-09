@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { sanitizeRichText } from '@/lib/sanitize';
 
 export async function GET() {
   try {
@@ -15,14 +16,17 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    const contentDe = sanitizeRichText(body.contentDe || '');
+    const contentEn = sanitizeRichText(body.contentEn || '');
     
     const page = await prisma.page.create({
       data: {
         slug: body.slug,
         titleDe: body.titleDe,
         titleEn: body.titleEn,
-        contentDe: body.contentDe || '',
-        contentEn: body.contentEn || '',
+        contentDe,
+        contentEn,
         image: body.image || null,
         published: body.published || false
       }

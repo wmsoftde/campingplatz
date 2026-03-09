@@ -4,6 +4,7 @@ import { Footer } from '@/components/Footer';
 import { prisma } from '@/lib/db';
 import { unstable_noStore as noStore } from 'next/cache';
 import { headers } from 'next/headers';
+import { renderContentHtml } from '@/lib/content';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -99,7 +100,7 @@ export default async function PricesPage({ params }: { params: Promise<{ locale:
               <div className="prose max-w-none mt-12">
                 <h2>{t('info')}</h2>
                 <div dangerouslySetInnerHTML={{ 
-                  __html: locale === 'de' ? page.contentDe : page.contentEn 
+                  __html: renderContentHtml(locale === 'de' ? page.contentDe : page.contentEn)
                 }} />
               </div>
             )}

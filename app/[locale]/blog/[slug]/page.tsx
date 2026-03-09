@@ -4,6 +4,7 @@ import { Footer } from '@/components/Footer';
 import { prisma } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { renderContentHtml } from '@/lib/content';
 
 export const dynamic = 'force-dynamic';
 
@@ -64,7 +65,7 @@ export default async function BlogPostPage({
               <div 
                 className="prose prose-lg max-w-none"
                 dangerouslySetInnerHTML={{ 
-                  __html: locale === 'de' ? post.contentDe : post.contentEn 
+                  __html: renderContentHtml(locale === 'de' ? post.contentDe : post.contentEn)
                 }}
               />
             </article>

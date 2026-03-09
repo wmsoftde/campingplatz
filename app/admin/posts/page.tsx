@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { RichTextEditor } from '@/components/RichTextEditor';
 
 interface Post {
   id: string;
@@ -220,25 +221,23 @@ export default function PostsPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Inhalt (Deutsch)
                 </label>
-                <textarea
+                <RichTextEditor
                   value={formData.contentDe}
-                  onChange={(e) => setFormData({ ...formData, contentDe: e.target.value })}
-                  className="input-field h-40"
+                  onChange={(html) => setFormData({ ...formData, contentDe: html })}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Inhalt (Englisch)
                 </label>
-                <textarea
+                <RichTextEditor
                   value={formData.contentEn}
-                  onChange={(e) => setFormData({ ...formData, contentEn: e.target.value })}
-                  className="input-field h-40"
+                  onChange={(html) => setFormData({ ...formData, contentEn: html })}
                 />
               </div>
             </div>

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { sanitizeRichText } from '@/lib/sanitize';
 
 export async function PUT(
   request: Request,
@@ -8,6 +9,9 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
+
+    const contentDe = sanitizeRichText(body.contentDe || '');
+    const contentEn = sanitizeRichText(body.contentEn || '');
     
     const page = await prisma.page.update({
       where: { id },
@@ -15,8 +19,8 @@ export async function PUT(
         slug: body.slug,
         titleDe: body.titleDe,
         titleEn: body.titleEn,
-        contentDe: body.contentDe || '',
-        contentEn: body.contentEn || '',
+        contentDe,
+        contentEn,
         image: body.image || null,
         published: body.published || false
       }

@@ -3,6 +3,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { prisma } from '@/lib/db';
 import { notFound } from 'next/navigation';
+import { renderContentHtml } from '@/lib/content';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,7 +41,7 @@ export default async function PageRoute({
             <div 
               className="prose prose-lg max-w-none"
               dangerouslySetInnerHTML={{ 
-                __html: locale === 'de' ? page.contentDe : page.contentEn 
+                __html: renderContentHtml(locale === 'de' ? page.contentDe : page.contentEn)
               }}
             />
           </div>
