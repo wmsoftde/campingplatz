@@ -3,8 +3,8 @@
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import clsx from 'clsx';
 import NavWeatherWidget from '@/components/NavWeatherWidget';
 
@@ -15,6 +15,13 @@ interface NavLink {
   url: string;
   position: number;
   parentId: string | null;
+  children?: NavLink[];
+}
+
+interface NavItem {
+  href: string;
+  label: string;
+  children?: { href: string; label: string }[];
 }
 
 export function Navigation({ locale }: { locale: string }) {
@@ -23,6 +30,7 @@ export function Navigation({ locale }: { locale: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [navLinks, setNavLinks] = useState<NavLink[]>([]);
   const [siteName, setSiteName] = useState(locale === 'de' ? 'Campingplatz' : 'Campsite');
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/navigation')
@@ -40,18 +48,29 @@ export function Navigation({ locale }: { locale: string }) {
       .catch(console.error);
   }, [locale]);
 
-  const dynamicItems = navLinks
-    .filter(l => !l.parentId)
-    .sort((a, b) => a.position - b.position)
-    .map(link => ({
-      href: link.url.startsWith('/') ? `/${locale}${link.url}` : link.url,
-      label: locale === 'de' ? link.labelDe : link.labelEn,
-      position: link.position
-    }));
+  const navItems: NavItem[] = useMemo(() => {
+    const rootLinks = navLinks
+      .filter(l => !l.parentId)
+      .sort((a, b) => a.position - b.position);
 
-  const navItems = [...dynamicItems];
+    return rootLinks.map(link => {
+      const children = navLinks
+        .filter(child => child.parentId === link.id)
+        .sort((a, b) => a.position - b.position)
+        .map(child => ({
+          href: child.url.startsWith('/') ? `/${locale}${child.url}` : child.url,
+          label: locale === 'de' ? child.labelDe : child.labelEn,
+        }));
 
-  const isActive = (href: string) => pathname === href;
+      return {
+        href: link.url.startsWith('/') ? `/${locale}${link.url}` : link.url,
+        label: locale === 'de' ? link.labelDe : link.labelEn,
+        children: children.length > 0 ? children : undefined
+      };
+    });
+  }, [navLinks, locale]);
+
+  const isActive = (href: string) => pathname === href || (pathname.startsWith(href) && href !== `/${locale}`);
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -71,20 +90,47 @@ export function Navigation({ locale }: { locale: string }) {
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
             {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={clsx(
-                  'font-medium transition-colors',
-                  isActive(item.href)
-                    ? 'text-primary'
-                    : 'text-gray-600 hover:text-primary'
-                )}
+              <div 
+                key={item.href} 
+                className="relative group"
+                onMouseEnter={() => setActiveDropdown(item.href)}
+                onMouseLeave={() => setActiveDropdown(null)}
               >
-                {item.label}
-              </Link>
+                <Link
+                  href={item.href}
+                  className={clsx(
+                    'font-medium transition-colors flex items-center gap-1 py-5',
+                    isActive(item.href)
+                      ? 'text-primary'
+                      : 'text-gray-600 hover:text-primary'
+                  )}
+                >
+                  {item.label}
+                  {item.children && <ChevronDown size={14} className={clsx("transition-transform", activeDropdown === item.href && "rotate-180")} />}
+                </Link>
+
+                {item.children && (
+                  <div className={clsx(
+                    "absolute top-full left-0 w-52 bg-white shadow-xl rounded-b-lg border-t-2 border-primary py-2 transition-all duration-200 transform origin-top-left z-50",
+                    activeDropdown === item.href ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
+                  )}>
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className={clsx(
+                          "block px-4 py-2 text-sm hover:bg-gray-50 transition-colors",
+                          isActive(child.href) ? "text-primary font-bold" : "text-gray-600 hover:text-primary"
+                        )}
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
             
             <Link
@@ -126,19 +172,48 @@ export function Navigation({ locale }: { locale: string }) {
         </div>
 
         {isOpen && (
-          <div className="md:hidden py-4 border-t">
+          <div className="md:hidden py-4 border-t max-h-[80vh] overflow-y-auto">
             {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={clsx(
-                  'block py-2 font-medium',
-                  isActive(item.href) ? 'text-primary' : 'text-gray-600'
+              <div key={item.href} className="border-b border-gray-50 last:border-0">
+                <div className="flex items-center justify-between">
+                  <Link
+                    href={item.href}
+                    className={clsx(
+                      'flex-1 py-3 font-medium',
+                      isActive(item.href) ? 'text-primary' : 'text-gray-600'
+                    )}
+                    onClick={() => !item.children && setIsOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                  {item.children && (
+                    <button 
+                      onClick={() => setActiveDropdown(activeDropdown === item.href ? null : item.href)}
+                      className="p-3 text-gray-400"
+                    >
+                      <ChevronDown size={20} className={clsx("transition-transform", activeDropdown === item.href && "rotate-180")} />
+                    </button>
+                  )}
+                </div>
+                
+                {item.children && activeDropdown === item.href && (
+                  <div className="bg-gray-50 px-4 py-2 space-y-2 mb-2 rounded-lg">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className={clsx(
+                          "block py-2 text-sm",
+                          isActive(child.href) ? "text-primary font-bold" : "text-gray-600"
+                        )}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
                 )}
-                onClick={() => setIsOpen(false)}
-              >
-                {item.label}
-              </Link>
+              </div>
             ))}
             <div className="flex space-x-4 mt-4 pt-4 border-t">
               <Link
