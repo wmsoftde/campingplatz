@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { writeFile, unlink } from 'fs/promises';
 import path from 'path';
+import { ensureUploadDir, getUploadDir, safeFilename } from '@/lib/uploads';
 
 export async function GET() {
   try {
@@ -26,8 +27,8 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     
-    const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+    const filename = `${Date.now()}-${safeFilename(file.name)}`;
+    const uploadDir = await ensureUploadDir();
     
     await writeFile(path.join(uploadDir, filename), buffer);
     
@@ -60,7 +61,10 @@ export async function DELETE(
       return NextResponse.json({ error: 'File not found' }, { status: 404 });
     }
 
-    const filePath = path.join(process.cwd(), 'public', media.path);
+    const uploadDir = getUploadDir();
+    const rel = (media.path || '').replace(/^\/+/, '');
+    const fileName = rel.split('/').pop() || '';
+    const filePath = path.join(uploadDir, fileName);
     
     try {
       await unlink(filePath);
