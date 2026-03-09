@@ -1,6 +1,7 @@
 import sanitizeHtml from 'sanitize-html';
 
 const colorRe = /^(#[0-9a-fA-F]{3,8}|rgb\([^\)]*\)|rgba\([^\)]*\)|hsl\([^\)]*\)|hsla\([^\)]*\))$/;
+const fontSizeRe = /^\d{1,3}px$/;
 
 export function sanitizeRichText(html: string) {
   return sanitizeHtml(html || '', {
@@ -11,6 +12,7 @@ export function sanitizeRichText(html: string) {
       'em',
       'u',
       's',
+      'mark',
       'blockquote',
       'ul',
       'ol',
@@ -26,7 +28,8 @@ export function sanitizeRichText(html: string) {
     allowedAttributes: {
       a: ['href', 'target', 'rel'],
       img: ['src', 'alt', 'title'],
-      span: ['style']
+      span: ['style'],
+      mark: ['style']
     },
     allowedSchemes: ['http', 'https', 'mailto'],
     allowedSchemesByTag: {
@@ -35,6 +38,10 @@ export function sanitizeRichText(html: string) {
     allowedStyles: {
       span: {
         color: [colorRe],
+        'background-color': [colorRe],
+        'font-size': [fontSizeRe]
+      },
+      mark: {
         'background-color': [colorRe]
       }
     },

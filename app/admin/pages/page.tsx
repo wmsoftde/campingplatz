@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { RichTextEditor } from '@/components/RichTextEditor';
+import { renderContentHtml } from '@/lib/content';
 
 interface Page {
   id: string;
@@ -28,6 +29,8 @@ export default function PagesPage() {
     image: '',
     published: false
   });
+
+  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
     fetchPages();
@@ -109,6 +112,16 @@ export default function PagesPage() {
           <h2 className="font-heading text-xl font-bold mb-6">
             {editingPage ? 'Seite bearbeiten' : 'Neue Seite'}
           </h2>
+
+          <div className="flex justify-end mb-4">
+            <button
+              type="button"
+              onClick={() => setShowPreview(!showPreview)}
+              className="btn-secondary"
+            >
+              {showPreview ? 'Vorschau ausblenden' : 'Vorschau anzeigen'}
+            </button>
+          </div>
           
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -184,6 +197,16 @@ export default function PagesPage() {
                   value={formData.contentDe}
                   onChange={(html) => setFormData({ ...formData, contentDe: html })}
                 />
+
+                {showPreview && (
+                  <div className="mt-4 p-4 rounded-lg border bg-gray-50">
+                    <div className="text-xs font-bold text-gray-500 uppercase mb-2">Vorschau (DE)</div>
+                    <div
+                      className="prose prose-sm max-w-none"
+                      dangerouslySetInnerHTML={{ __html: renderContentHtml(formData.contentDe) }}
+                    />
+                  </div>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -193,6 +216,16 @@ export default function PagesPage() {
                   value={formData.contentEn}
                   onChange={(html) => setFormData({ ...formData, contentEn: html })}
                 />
+
+                {showPreview && (
+                  <div className="mt-4 p-4 rounded-lg border bg-gray-50">
+                    <div className="text-xs font-bold text-gray-500 uppercase mb-2">Preview (EN)</div>
+                    <div
+                      className="prose prose-sm max-w-none"
+                      dangerouslySetInnerHTML={{ __html: renderContentHtml(formData.contentEn) }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
