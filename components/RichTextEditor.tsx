@@ -21,6 +21,71 @@ type MediaFile = {
   createdAt?: string;
 };
 
+const CustomImage = Image.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      width: {
+        default: null,
+        parseHTML: (element) => (element as HTMLElement).getAttribute('data-width') || (element as HTMLElement).style.width || null,
+        renderHTML: (attributes) => {
+          if (!attributes.width) return {};
+          return { 'data-width': attributes.width };
+        }
+      },
+      align: {
+        default: 'center',
+        parseHTML: (element) => (element as HTMLElement).getAttribute('data-align') || 'center',
+        renderHTML: (attributes) => ({ 'data-align': attributes.align || 'center' })
+      },
+      gap: {
+        default: 'md',
+        parseHTML: (element) => (element as HTMLElement).getAttribute('data-gap') || 'md',
+        renderHTML: (attributes) => ({ 'data-gap': attributes.gap || 'md' })
+      }
+    };
+  },
+  renderHTML({ HTMLAttributes }) {
+    const width = (HTMLAttributes as any)['data-width'] as string | undefined;
+    const align = ((HTMLAttributes as any)['data-align'] as string | undefined) || 'center';
+    const gap = ((HTMLAttributes as any)['data-gap'] as string | undefined) || 'md';
+
+    const gapMap: Record<string, { top: number; bottom: number; side: number }> = {
+      none: { top: 0, bottom: 0, side: 0 },
+      sm: { top: 6, bottom: 10, side: 12 },
+      md: { top: 8, bottom: 12, side: 16 },
+      lg: { top: 10, bottom: 16, side: 20 }
+    };
+    const g = gapMap[gap] || gapMap.md;
+
+    const style: string[] = ['max-width:100%', 'height:auto'];
+    if (width) {
+      style.push(`width:${width}`);
+    }
+
+    if (align === 'left') {
+      style.push('float:left');
+      style.push(`margin:${g.top}px ${g.side}px ${g.bottom}px 0`);
+    } else if (align === 'right') {
+      style.push('float:right');
+      style.push(`margin:${g.top}px 0 ${g.bottom}px ${g.side}px`);
+    } else {
+      style.push('display:block');
+      style.push('margin-left:auto');
+      style.push('margin-right:auto');
+      style.push(`margin-top:${g.top}px`);
+      style.push(`margin-bottom:${g.bottom}px`);
+    }
+
+    const attrs = {
+      ...HTMLAttributes,
+      style: style.join(';')
+    };
+
+    return ['img', attrs];
+  }
+});
+
 const FontSize = Extension.create({
   name: 'fontSize',
   addGlobalAttributes() {
@@ -115,7 +180,7 @@ export function RichTextEditor({ value, onChange, className }: Props) {
           target: '_blank'
         }
       }),
-      Image.configure({ inline: false })
+      CustomImage.configure({ inline: false })
     ],
     content: value || '',
     onUpdate: ({ editor }) => {
@@ -196,7 +261,8 @@ export function RichTextEditor({ value, onChange, className }: Props) {
   };
 
   const insertMediaImage = (src: string) => {
-    editor.chain().focus().setImage({ src }).run();
+    const normalized = src.startsWith('/uploads/') ? src.replace('/uploads/', '/api/uploads/') : src;
+    editor.chain().focus().setImage({ src: normalized }).run();
     // Add a new paragraph after the image for nicer editing
     editor.chain().focus().enter().run();
     setMediaOpen(false);
@@ -204,6 +270,16 @@ export function RichTextEditor({ value, onChange, className }: Props) {
 
   const swatches = ['#111827', '#1f2937', '#0f766e', '#0ea5e9', '#2563eb', '#7c3aed', '#be123c', '#b45309'];
   const fontSizes = ['12px', '14px', '16px', '18px', '20px', '24px', '28px'];
+  const imageSizes = ['', '25%', '33%', '50%', '66%', '75%', '100%', '300px', '400px', '500px'];
+  const imageGaps: Array<{ value: string; label: string }> = [
+    { value: 'none', label: 'No Gap' },
+    { value: 'sm', label: 'Small Gap' },
+    { value: 'md', label: 'Medium Gap' },
+    { value: 'lg', label: 'Large Gap' }
+  ];
+
+  const isImageSelected = editor.isActive('image');
+  const imageAttrs = editor.getAttributes('image') as any;
 
   return (
     <div className={clsx('border border-gray-200 rounded-lg bg-white overflow-hidden', className)}>
@@ -276,6 +352,54 @@ export function RichTextEditor({ value, onChange, className }: Props) {
         </ToolbarButton>
         <ToolbarButton onClick={addImage}>Image URL</ToolbarButton>
         <ToolbarButton onClick={openMedia}>Media</ToolbarButton>
+
+        {isImageSelected && (
+          <>
+            <div className="w-px bg-gray-200 mx-1" />
+            <label className="flex items-center gap-2 px-2 py-1 text-sm text-gray-700 border border-gray-200 rounded bg-white">
+              Img
+              <select
+                className="text-sm bg-transparent"
+                value={imageAttrs.width || ''}
+                onChange={(e) => editor.chain().focus().updateAttributes('image', { width: e.target.value || null }).run()}
+              >
+                {imageSizes.map((s) => (
+                  <option key={s || 'auto'} value={s}>{s || 'Auto'}</option>
+                ))}
+              </select>
+            </label>
+            <ToolbarButton
+              active={imageAttrs.align === 'left'}
+              onClick={() => editor.chain().focus().updateAttributes('image', { align: 'left' }).run()}
+            >
+              Left
+            </ToolbarButton>
+            <ToolbarButton
+              active={!imageAttrs.align || imageAttrs.align === 'center'}
+              onClick={() => editor.chain().focus().updateAttributes('image', { align: 'center' }).run()}
+            >
+              Center
+            </ToolbarButton>
+            <ToolbarButton
+              active={imageAttrs.align === 'right'}
+              onClick={() => editor.chain().focus().updateAttributes('image', { align: 'right' }).run()}
+            >
+              Right
+            </ToolbarButton>
+            <label className="flex items-center gap-2 px-2 py-1 text-sm text-gray-700 border border-gray-200 rounded bg-white">
+              Gap
+              <select
+                className="text-sm bg-transparent"
+                value={imageAttrs.gap || 'md'}
+                onChange={(e) => editor.chain().focus().updateAttributes('image', { gap: e.target.value }).run()}
+              >
+                {imageGaps.map((g) => (
+                  <option key={g.value} value={g.value}>{g.label}</option>
+                ))}
+              </select>
+            </label>
+          </>
+        )}
 
         <label className="flex items-center gap-2 px-2 py-1 text-sm text-gray-700 border border-gray-200 rounded bg-white">
           Color

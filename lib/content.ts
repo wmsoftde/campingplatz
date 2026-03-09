@@ -12,8 +12,11 @@ function looksLikeHtml(input: string) {
 }
 
 export function renderContentHtml(content: string) {
-  const raw = content || '';
+  let raw = content || '';
   if (raw.trim() === '') return '';
+
+  // Backward compatibility: rewrite old /uploads paths to the API route
+  raw = raw.replace(/\bsrc="\/uploads\//g, 'src="/api/uploads/');
 
   // If we already have HTML from the editor, render as-is.
   if (looksLikeHtml(raw)) return raw;

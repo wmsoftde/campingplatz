@@ -101,7 +101,7 @@ export default function MediaPage() {
               <div className="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center overflow-hidden">
                 {file.mimeType.startsWith('image/') ? (
                   <img 
-                    src={file.path} 
+                    src={file.path.startsWith('/uploads/') ? file.path.replace('/uploads/', '/api/uploads/') : file.path} 
                     alt={file.originalName}
                     className="w-full h-full object-cover"
                   />

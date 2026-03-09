@@ -38,7 +38,8 @@ export async function POST(request: Request) {
         originalName: file.name,
         mimeType: file.type,
         size: file.size,
-        path: `/uploads/${filename}`
+        // Use API route so it works even if nginx doesn't serve /uploads
+        path: `/api/uploads/${filename}`
       }
     });
     
