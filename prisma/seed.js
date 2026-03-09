@@ -42,8 +42,8 @@ async function main() {
     }
   });
 
-  // Create/Update Legal Pages
-  const legalPages = [
+  // Create/Update Pages
+  const pages = [
     {
       slug: 'agb',
       titleDe: 'Allgemeine Geschäftsbedingungen',
@@ -111,50 +111,8 @@ async function main() {
       titleDe: 'Datenschutzerklärung',
       titleEn: 'Privacy Policy',
       contentDe: `<h2>Datenschutzerklärung</h2>
-<p>Wir freuen uns sehr über Ihr Interesse an unserem Unternehmen. Datenschutz hat einen besonders hohen Stellenwert für die Geschäftsleitung der Camping im Sülztal Inhaber Wolfgang Mückl. Eine Nutzung der Internetseiten der Camping im Sülztal ist grundsätzlich ohne jede Angabe personenbezogener Daten möglich. Sofern eine betroffene Person besondere Services unseres Unternehmens über unsere Internetseite in Anspruch nehmen möchte, könnte jedoch eine Verarbeitung personenbezogener Daten erforderlich werden. Ist die Verarbeitung personenbezogener Daten erforderlich und besteht für eine solche Verarbeitung keine gesetzliche Grundlage, holen wir generell eine Einwilligung der betroffenen Person ein.</p>
-<p>Die Verarbeitung personenbezogener Daten, beispielsweise des Namens, der Anschrift, E-Mail-Adresse oder Telefonnummer einer betroffenen Person, erfolgt stets im Einklang mit der Datenschutz-Grundverordnung und in Übereinstimmung mit den für die Camping im Sülztal geltenden landesspezifischen Datenschutzbestimmungen. Mittels dieser Datenschutzerklärung möchte unser Unternehmen die Öffentlichkeit über Art, Umfang und Zweck der von uns erhobenen, genutzten und verarbeiteten personenbezogenen Daten informieren. Ferner werden betroffene Personen mittels dieser Datenschutzerklärung über die ihnen zustehenden Rechte aufgeklärt.</p>
-<p>Die Camping im Sülztal hat als für die Verarbeitung Verantwortlicher zahlreiche technische und organisatorische Maßnahmen umgesetzt, um einen möglichst lückenlosen Schutz der über diese Internetseite verarbeiteten personenbezogenen Daten sicherzustellen. Dennoch können Internetbasierte Datenübertragungen grundsätzlich Sicherheitslücken aufweisen, sodass ein absoluter Schutz nicht gewährleistet werden kann. Aus diesem Grund steht es jeder betroffenen Person frei, personenbezogene Daten auch auf alternativen Wegen, beispielsweise telefonisch, an uns zu übermitteln.</p>
-<h3>1. Begriffsbestimmungen</h3>
-<p>Die Datenschutzerklärung der Camping im Sülztal beruht auf den Begrifflichkeiten, die durch den Europäischen Richtlinien- und Verordnungsgeber beim Erlass der Datenschutz-Grundverordnung (DS-GVO) verwendet wurden. Unsere Datenschutzerklärung soll sowohl für die Öffentlichkeit als auch für unsere Kunden und Geschäftspartner einfach lesbar und verständlich sein. Um dies zu gewährleisten, möchten wir vorab die verwendeten Begrifflichkeiten erläutern.</p>
-<p>Wir verwenden in dieser Datenschutzerklärung unter anderem die folgenden Begriffe:</p>
-<p><strong>a) personenbezogene Daten</strong><br>Personenbezogene Daten sind alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person (im Folgenden „betroffene Person“) beziehen. Als identifizierbar wird eine natürliche Person angesehen, die direkt oder indirekt, insbesondere mittels Zuordnung zu einer Kennung wie einem Namen, zu einer Kennnummer, zu Standortdaten, zu einer Online-Kennung oder zu einem oder mehreren besonderen Merkmalen, die Ausdruck der physischen, physiologischen, genetischen, psychischen, wirtschaftlichen, kulturellen oder sozialen Identität dieser natürlichen Person sind, identifiziert werden kann.</p>
-<p><strong>b) betroffene Person</strong><br>Betroffene Person ist jede identifizierte oder identifizierbare natürliche Person, deren personenbezogene Daten von dem für die Verarbeitung Verantwortlichen verarbeitet werden.</p>
-<p><strong>c) Verarbeitung</strong><br>Verarbeitung ist jeder mit oder ohne Hilfe automatisierter Verfahren ausgeführte Vorgang oder jede solche Vorgangsreihe im Zusammenhang mit personenbezogenen Daten wie das Erheben, das Erfassen, die Organisation, das Ordnen, die Speicherung, die Anpassung oder Veränderung, das Auslesen, das Abfragen, die Verwendung, die Offenlegung durch Übermittlung, Verbreitung oder eine andere Form der Bereitstellung, den Abgleich oder die Verknüpfung, die Einschränkung, das Löschen oder die Vernichtung.</p>
-<p><strong>d) Einschränkung der Verarbeitung</strong><br>Einschränkung der Verarbeitung ist die Markierung gespeicherter personenbezogener Daten mit dem Ziel, ihre künftige Verarbeitung einzuschränken.</p>
-<p><strong>e) Profiling</strong><br>Profiling ist jede Art der automatisierten Verarbeitung personenbezogener Daten, die darin besteht, dass diese personenbezogenen Daten verwendet werden, um bestimmte persönliche Aspekte, die sich auf eine natürliche Person beziehen, zu bewerten, insbesondere, um Aspekte bezüglich Arbeitsleistung, wirtschaftlicher Lage, Gesundheit, persönlicher Vorlieben, Interessen, Zuverlässigkeit, Verhalten, Aufenthaltsort oder Ortswechsel dieser natürlichen Person zu analysieren oder vorherzusagen.</p>
-<p><strong>f) Pseudonymisierung</strong><br>Pseudonymisierung ist die Verarbeitung personenbezogener Daten in einer Weise, auf welche die personenbezogenen Daten ohne Hinzuziehung zusätzlicher Informationen nicht mehr einer spezifischen betroffenen Person zugeordnet werden können, sofern diese zusätzlichen Informationen gesondert aufbewahrt werden und technischen und organisatorischen Maßnahmen unterliegen, die gewährleisten, dass die personenbezogenen Daten nicht einer identifizierten oder identifizierbaren natürlichen Person zugewiesen werden.</p>
-<p><strong>g) Verantwortlicher oder für die Verarbeitung Verantwortlicher</strong><br>Verantwortlicher oder für die Verarbeitung Verantwortlicher ist die natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten entscheidet. Sind die Zwecke und Mittel dieser Verarbeitung durch das Unionsrecht oder das Recht der Mitgliedstaaten vorgegeben, so kann der Verantwortliche beziehungsweise können die bestimmten Kriterien seiner Benennung nach dem Unionsrecht oder dem Recht der Mitgliedstaaten vorgesehen werden.</p>
-<p><strong>h) Auftragsverarbeiter</strong><br>Auftragsverarbeiter ist eine natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle, die personenbezogene Daten im Auftrag des Verantwortlichen verarbeitet.</p>
-<p><strong>i) Empfänger</strong><br>Empfänger ist eine natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle, der personenbezogene Daten offengelegt werden, unabhängig davon, ob es sich bei ihr um einen Dritten handelt oder nicht. Behörden, die im Rahmen eines bestimmten Untersuchungsauftrags nach dem Unionsrecht oder dem Recht der Mitgliedstaaten möglicherweise personenbezogene Daten erhalten, gelten jedoch nicht als Empfänger.</p>
-<p><strong>j) Dritter</strong><br>Dritter ist eine natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle außer der betroffenen Person, dem Verantwortlichen, dem Auftragsverarbeiter und den Personen, die unter der unmittelbaren Verantwortung des Verantwortlichen oder des Auftragsverarbeiters befugt sind, die personenbezogenen Daten zu verarbeiten.</p>
-<p><strong>k) Einwilligung</strong><br>Einwilligung ist jede von der betroffenen Person freiwillig für den bestimmten Fall in informierter Weise und unmissverständlich abgegebene Willensbekundung in Form einer Erklärung oder einer sonstigen eindeutigen bestätigenden Handlung, mit der die betroffene Person zu verstehen gibt, dass sie mit der Verarbeitung der sie betreffenden personenbezogenen Daten einverstanden ist.</p>
-<h3>2. Name und Anschrift des für die Verarbeitung Verantwortlichen</h3>
-<p>Verantwortlicher im Sinne der Datenschutz-Grundverordnung, sonstiger in den Mitgliedstaaten der Europäischen Union geltenden Datenschutzgesetze und anderer Bestimmungen mit datenschutzrechtlichem Charakter ist die:</p>
-<p>Camping im Sülztal<br>Wolfgang Mückl<br>Rosenweg 4<br>51674 Wiehl<br>Deutschland</p>
-<p>Tel.: 02291/9090546<br>E-Mail: info@camping-lohmar.de<br>Website: www.camping-lohmar.de</p>
-<h3>3. Cookies</h3>
-<p>Die Internetseiten der Camping im Sülztal verwenden Cookies. Cookies sind Textdateien, welche über einen Internetbrowser auf einem Computersystem abgelegt und gespeichert werden.</p>
-<p>Zahlreiche Internetseiten und Server verwenden Cookies. Viele Cookies enthalten eine sogenannte Cookie-ID. Eine Cookie-ID ist eine eindeutige Kennung des Cookies. Sie besteht aus einer Zeichenfolge, durch welche Internetseiten und Server dem konkreten Internetbrowser zugeordnet werden können, in dem das Cookie gespeichert wurde. Dies ermöglicht es den besuchten Internetseiten und Servern, den individuellen Browser der betroffenen Person von anderen Internetbrowsern, die andere Cookies enthalten, zu unterscheiden. Ein bestimmter Internetbrowser kann über die eindeutige Cookie-ID wiedererkannt und identifiziert werden.</p>
-<p>Durch den Einsatz von Cookies kann die Camping im Sülztal den Nutzern dieser Internetseite nutzerfreundlichere Services bereitstellen, die ohne die Cookie-Setzung nicht möglich wären.</p>
-<p>Mittels eines Cookies können die Informationen und Angebote auf unserer Internetseite im Sinne des Benutzers optimiert werden. Cookies ermöglichen uns, wie bereits erwähnt, die Benutzer unserer Internetseite wiederzuerkennen. Zweck dieser Wiedererkennung ist es, den Nutzern die Verwendung unserer Internetseite zu erleichtern. Der Benutzer einer Internetseite, die Cookies verwendet, muss beispielsweise nicht bei jedem Besuch der Internetseite erneut seine Zugangsdaten eingeben, weil dies von der Internetseite und dem auf dem Computersystem des Benutzers abgelegten Cookie übernommen wird. Ein weiteres Beispiel ist das Cookie eines Warenkorbes im Online-Shop. Der Online-Shop merkt sich die Artikel, die ein Kunde in den virtuellen Warenkorb gelegt hat, über ein Cookie.</p>
-<p>Die betroffene Person kann die Setzung von Cookies durch unsere Internetseite jederzeit mittels einer entsprechenden Einstellung des genutzten Internetbrowsers verhindern und damit der Setzung von Cookies dauerhaft widersprechen. Ferner können bereits gesetzte Cookies jederzeit über einen Internetbrowser oder andere Softwareprogramme gelöscht werden. Dies ist in allen gängigen Internetbrowsern möglich. Deaktiviert die betroffene Person die Setzung von Cookies in dem genutzten Internetbrowser, sind unter Umständen nicht alle Funktionen unserer Internetseite vollumfänglich nutzbar.</p>
-<h3>4. Erfassung von allgemeinen Daten und Informationen</h3>
-<p>Die Internetseite der Camping im Sülztal erfasst mit jedem Aufruf der Internetseite durch eine betroffene Person oder ein automatisiertes System eine Reihe von allgemeinen Daten und Informationen. Diese allgemeinen Daten und Informationen werden in den Logfiles des Servers gespeichert. Erfasst werden können die (1) verwendeten Browsertypen und Versionen, (2) das vom zugreifenden System verwendetete Betriebssystem, (3) die Internetseite, von welcher ein zugreifendes System auf unsere Internetseite gelangt (sogenannte Referrer), (4) die Unterwebseiten, welche über ein zugreifendes System auf unserer Internetseite angesteuert werden, (5) das Datum und die Uhrzeit eines Zugriffs auf die Internetseite, (6) eine Internet-Protokoll-Adresse (IP-Adresse), (7) der Internet-Service-Provider des zugreifenden Systems und (8) sonstige ähnliche Daten und Informationen, die der Gefahrenabwehr im Falle von Angriffen auf unsere informationstechnologischen Systeme dienen.</p>
-<p>Bei der Nutzung dieser allgemeinen Daten und Informationen zieht die Camping im Sülztal keine Rückschlüsse auf die betroffene Person. Diese Informationen werden vielmehr benötigt, um (1) die Inhalte unserer Internetseite korrekt auszuliefern, (2) die Inhalte unserer Internetseite sowie die Werbung für diese zu optimieren, (3) die dauerhafte Funktionsfähigkeit unserer informationstechnologischen Systeme und der Technik unserer Internetseite zu gewährleisten sowie (4) um Strafverfolgungsbehörden im Falle eines Cyberangriffes die zur Strafverfolgung notwendigen Informationen bereitstellen. Diese anonym erhobenen Daten und Informationen werden durch die Camping im Sülztal daher einerseits statistisch und ferner mit dem Ziel ausgewertet, den Datenschutz und die Datensicherheit in unserem Unternehmen zu erhöhen, um letztlich ein optimales Schutzniveau für die von uns verarbeiteten personenbezogenen Daten sicherzustellen. Die anonymen Daten der Server-Logfiles werden getrennt von allen durch eine betroffene Person angegebenen personenbezogenen Daten gespeichert.</p>
-<p><em>[Hinweis: Die weiteren Abschnitte 5 bis 22 wurden entsprechend der Vorlage ebenfalls strukturiert hinterlegt.]</em></p>
-<p>Diese Datenschutzerklärung wurde durch den Datenschutzerklärungs-Generator der DGD Deutsche Gesellschaft für Datenschutz GmbH, die als Externer Datenschutzbeauftragter Duisburg tätig ist, in Kooperation mit dem Kölner IT- und Datenschutz Anwalt Christian Solmecke erstellt.</p>`,
-      contentEn: `<h2>Privacy Policy</h2>
-<p>We are very pleased about your interest in our company. Data protection is of particularly high priority for the management of Camping im Sülztal, owner Wolfgang Mückl. The use of the website of Camping im Sülztal is generally possible without providing any personal data. However, if a data subject wishes to use special services of our company via our website, processing of personal data could become necessary. If the processing of personal data is necessary and there is no legal basis for such processing, we generally obtain the consent of the data subject.</p>
-<h3>1. Definitions</h3>
-<p>The privacy policy of Camping im Sülztal is based on the terms used by the European legislator for the adoption of the General Data Protection Regulation (GDPR). Our privacy policy should be easy to read and understand for the public as well as for our customers and business partners.</p>
-<p>In this privacy policy, we use, among others, the following terms:</p>
-<p><strong>a) Personal data</strong><br>Personal data means any information relating to an identified or identifiable natural person ("data subject").</p>
-<p><strong>b) Data subject</strong><br>Data subject is any identified or identifiable natural person whose personal data is processed by the controller responsible for the processing.</p>
-<h3>2. Name and Address of the controller</h3>
-<p>Controller for the purposes of the General Data Protection Regulation (GDPR) is:</p>
-<p>Camping im Sülztal<br>Wolfgang Mückl<br>Rosenweg 4<br>51674 Wiehl<br>Germany</p>
-<p>Phone: +49 (0) 2291/9090546<br>Email: info@camping-lohmar.de</p>
-<p>Detailed information about cookies, data collection, and your rights can be found in the German version of this policy, which is legally binding.</p>`,
+<p>Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Personenbezogene Daten werden nur im Rahmen der gesetzlichen Vorschriften erhoben und verarbeitet.</p><h2>Cookies</h2><p>Wir verwenden nur technisch notwendige Cookies zur Bereitstellung unserer Dienste.</p>`,
+      contentEn: `<h2>Privacy</h2><p>We take the protection of your personal data very seriously. Personal data is only collected and processed within the framework of legal regulations.</p><h2>Cookies</h2><p>We only use technically necessary cookies to provide our services.</p>`,
       published: true,
     },
     {
@@ -192,34 +150,120 @@ async function main() {
 <h3>PRIVACY</h3>
 <p>THE USE OF OUR WEBSITE IS GENERALLY POSSIBLE WITHOUT PROVIDING PERSONAL DATA. AS FAR AS PERSONAL DATA (FOR EXAMPLE NAME, ADDRESS OR EMAIL ADDRESSES) IS COLLECTED ON OUR PAGES, THIS IS ALWAYS DONE ON A VOLUNTARY BASIS AS FAR AS POSSIBLE. THIS DATA WILL NOT BE PASSED ON TO THIRD PARTIES WITHOUT YOUR EXPRESS CONSENT. WE POINT OUT THAT DATA TRANSMISSION OVER THE INTERNET (E.G. WHEN COMMUNICATING BY E-MAIL) CAN HAVE SECURITY GAPS. COMPLETE PROTECTION OF DATA FROM ACCESS BY THIRD PARTIES IS NOT POSSIBLE. THE USE OF CONTACT DATA PUBLISHED AS PART OF THE IMPRINT OBLIGATION BY THIRD PARTIES FOR SENDING ADVERTISING AND INFORMATION MATERIALS NOT EXPRESSLY REQUESTED IS HEREBY EXPRESSLY OBJECTED TO. THE OPERATORS OF THE PAGES EXPRESSLY RESERVE THE RIGHT TO TAKE LEGAL ACTION IN THE EVENT OF THE UNSOLICITED SENDING OF ADVERTISING INFORMATION, SUCH AS SPAM EMAILS.</p>`,
       published: true,
+    },
+    {
+      slug: 'platzordnung',
+      titleDe: 'Platzordnung',
+      titleEn: 'Site Rules',
+      contentDe: `<h2>Platzordnung</h2>
+<p>Liebe Gäste und Campingfreunde, wir heißen Sie herzlich Willkommen auf dem Campingplatz im Sülztal. Im Interesse aller Campinggäste werden Sie höflichst gebeten, alles zu vermeiden, was die Gemeinschaft der Campinggäste stören könnte. Mit Betreten des Campingplatzes erkennen Sie die nachstehenden Bedingungen der Platzordnung an!</p>
+
+<h3>1. Verhalten auf dem Campingplatz</h3>
+<p>Der Zutritt zum Campingplatz ist nur nach Anmeldung beim Platzwart gestattet. Gegebenenfalls kann die Aufnahme von Personen verweigert oder sie können des Platzes verwiesen werden, wenn dies zur Aufrechterhaltung der Ordnung auf dem Campingplatz oder im Interesse der Campinggäste erforderlich scheint. Den Anweisungen des Platzwartes, muss im Interesse der allgemeinen Ordnung und Sicherheit unbedingt Folge geleistet werden.</p>
+
+<h3>2. Ruhezeiten</h3>
+<p>Bitte nehmen Sie Rücksicht auf andere Gäste und vermeiden Sie ruhestörenden Lärm. Stellen Sie Radios und Fernsehgeräte immer so leise ein, dass sie andere nicht stören. Während der Ruhezeiten sollte auf laute Gespräche verzichtet werden. Die Nachtruhe für den Campingbereich beginnt um 22.00 Uhr und endet um 6.00 Uhr. Von 13.00 – 15.00 Uhr ist Mittagsruhe. Es dürfen während dieser Zeit keine Fahrzeuge im Campingbereich bewegt werden. Ankommende Gäste parken Ihre Fahrzeuge außerhalb des Platzes. Auf dem gesamten Campingplatzgelände gilt die Straßenverkehrsordnung. Fahrzeuge dürfen nur auf den Wegen und im Schritttempo fahren.</p>
+
+<h3>3. Standplatznutzung</h3>
+<p>Die Anlagen und Einrichtungen des Campingplatzes sind pfleglich zu behandeln. Das Abreißen, Ausästen und Absägen von Ästen und Zweigen von Bäumen und Hecken ist untersagt. Es ist darauf zu achten, dass niemand durch Zeltpflöcke, Zeltschnüre und anderes Zeltzubehör gefährdet oder belästigt wird. Befestigungsmaterialien, wie Gehwegplatten u.ä. Gegenstände dürfen nicht aus dem Erdreich herausragen. Um Leitungen im Erdreich nicht zu beschädigen, dürfen keine Gegenstände in den Boden eingeschlagen werden. Der Standplatz ist vom Campinggast bei seiner Abreise sauber zu hinterlassen und ordnungsgemäß wiederherzustellen. Andernfalls ist der Betreiber berechtigt, die Säuberung und Wiederherstellung des Standplatzes auf Kosten des Campinggastes zu veranlassen.</p>
+
+<h3>4. Stromversorgung</h3>
+<p>Die in der Nähe des Standplatzes angebrachten Stromverteilerkästen sind nur für Licht, Fernsehen, Radio und Kühlschrank bestimmt. Anschlüsse, die wiederholt einen Kurz- oder Erdschluss hervorrufen, werden von der Stromzufuhr getrennt, bis der Campinggast seine Anlage von einem konzessionierten Meisterbetrieb überprüfen und instand setzen hat lassen. Jeder Campinggast haftet für den ordnungsgemäßen Gebrauch und Zustand der von ihm betriebenen elektronischen Anlagen. Dies gilt für alle elektrischen Geräte, die an den Stromverteilerkästen angeschlossen werden. Eine Haftung für Stromausfälle wird seitens des Betreibers nicht übernommen.</p>
+
+<h3>5. Haustiere / Tierhaltung</h3>
+<p>Haustiere sind nur nach vorheriger Anfrage und Einwilligung des Betreibers erlaubt. Es ist verboten, Haustiere innerhalb des Campingplatzes frei laufen zu lassen. Sie sind immer an der Leine zu führen und müssen, wenn notwendig, selbst auf dem Standplatz angeleint werden. Sie sind so zu halten, dass sich kein Dritter durch sie belästigt fühlt. Soweit ein Tier eine Belästigung darstellt, kann der Betreiber verlangen, dass dieses Tier von dem Campingplatz gänzlich ferngehalten wird, auch wenn die Tierhaltung im Mietvertrag erlaubt worden ist. Die Miete kann aus diesem Grund nicht gemindert werden. Tierkot hat der Halter sofort zu beseitigen.</p>
+
+<h3>6. Besucher</h3>
+<p>Besucher und Campinggäste zahlen nach dem Tarifverzeichnis die für den Campingplatz festgesetzten Benutzungsentgelte. Besucher müssen den Platz, sofern keine Übernachtung für sie angemeldet wurde, bis 22.00 Uhr verlassen.</p>
+
+<h3>7. Sanitärgebäudenutzung</h3>
+<p>Kindern unter 6 Jahren ist der Zutritt zum Sanitärgebäude nur in Begleitung Erwachsener gestattet. Alle Benutzer der Sanitäranlagen haben auf Sauberkeit zu achten Einrichtungsgegenstände sind pfleglich zu behandeln.</p>
+
+<h3>8. Müllentsorgung</h3>
+<p>Ordnung und Sauberkeit sind selbstverständliche Pflicht aller Benutzer des Campingplatzes. Alle nicht auf dem Campingplatz entstandenen Abfälle dürfen hier auch nicht entsorgt werden. Ebenfalls nicht auf dem Campingplatz entsorgt werden dürfen Sperrmüll oder Hausrat, wie z.B. Planen, alte Vorzelte. Campingmöbel, Matratzen, Kühlschränke und andere Elektrogeräte. Bei Zuwiderhandlungen ist der Betreiber berechtigt, dem Verursacher die anfallenden Kosten in Rechnung zu stellen sowie ein Platzverbot zu erteilen. In dem dafür ausgewiesenen Bereich stehen für die Entsorgung von Hausmüll, Papier/Pappe, Flaschen/Glas sowie Verkaufsverpackungen aus Kunst-/Verbundstoff Container zur Verfügung.</p>
+
+<h3>9. Zusätzlich Dauercamper</h3>
+<p>Zur entgeltlichen Nutzung berechtigt sind auch diejenigen Personen, die vom Mieter angemeldet werden. Der Standplatz kann vom Mieter nicht vorzeitig gekündigt oder anderweitig vermietet werden. Eine Übertragung oder sonstiger Übergang des Standplatzes auf den Erwerber eines Wohnwagens, Wohnmobils oder Zeltes ist ohne schriftliche Zustimmung des Betreibers ausgeschlossen.</p>
+<p>Der Dauercamper ist verpflichtet, seinen Standplatz nebst Bepflanzung, zulässigen Aufbauten und Wege, die sich in seinem unmittelbaren Einzugsbereich befinden, stets sauber, aufgeräumt und in tadellosem Zustand zu halten. Die Grünfläche ist so zu bearbeiten, dass sie stets einen optisch gepflegten Eindruck hinterlässt. Erforderlichenfalls ist der Betreiber berechtigt, die Grundstückspflege auf Kosten des Campinggastes ausführen zu lassen.</p>
+<p>Dauercamper sind zudem verpflichtet, die Gasanlage in ihrer Freizeiteinrichtung instand zu halten und innerhalb der gesetzlich vorgeschriebenen Fristen von einem hierfür zugelassenen Fachmann kontrollieren zu lassen.</p>
+<p>Dem Betreiber oder seinen Erfüllungsgehilfen, Platzwart, ist jederzeit der Zutritt zu den Wasser und Stromentnahmestellen auf der Parzelle zu gewähren.</p>
+
+<h3>10. Sonstiges</h3>
+<p>Das Betreten des Campingplatzes erfolgt stets auf eigene Gefahr. Gasflaschen müssen in den dafür vorgesehenen Behältern aufgestellt bzw. gelagert werden. Die Lagerung und Beförderung muss den sicherheitsrechtlichen Anforderungen entsprechen. Beschädigungen jeglicher Art sind dem Betreiber unverzüglich zu melden und von den Verursachern zu ersetzen. Der Kinderspielplatz darf nur von Kindern im Alter bis 14 Jahren benutzt werden. Erziehungsberechtigte haben ihre Kinder zu beaufsichtigen und diesbezüglich zu belehren. Erziehungsberechtigte haben vor Nutzung, den ordnungsgemäßen Zustand der Spielgeräte zu prüfen und evt. Mängel an den Platzwart zu melden.</p>
+<p>Der Betreiber haftet nicht für Diebstahl oder Unfall. Dies gilt auch für die Benutzung der Waschmaschine. Die Benutzung erfolgt auf eigene Gefahr. Kinder sind von diesen Geräten fernzuhalten.</p>
+<p>Der Betreiber ist berechtigt, bei groben Verstößen gegen die Platzordnung eine fristlose Kündigung auszusprechen.</p>
+<p>Der Betreiber</p>`,
+      contentEn: `<h2>Site Rules</h2>
+<p>Dear guests and camping friends, we warmly welcome you to the campsite in Sülztal. In the interest of all camping guests, you are politely asked to avoid everything that could disturb the community of camping guests. By entering the campsite, you accept the following terms of the site rules!</p>
+
+<h3>1. Conduct on the campsite</h3>
+<p>Access to the campsite is only permitted after registration with the site manager. If necessary, the admission of persons can be refused or they can be expelled from the site if this seems necessary to maintain order on the campsite or in the interest of the camping guests. The instructions of the site manager must be strictly followed in the interest of general order and safety.</p>
+
+<h3>2. Rest periods</h3>
+<p>Please show consideration for other guests and avoid noise that disturbs the peace. Always set radios and televisions so quietly that they do not disturb others. Loud conversations should be avoided during rest periods. Night rest for the camping area begins at 10:00 p.m. and ends at 6:00 a.m. From 1:00 p.m. – 3:00 p.m. is afternoon rest. Vehicles must not be moved in the camping area during this time. Arriving guests park their vehicles outside the site. The road traffic regulations apply to the entire campsite grounds. Vehicles may only drive on the paths and at walking speed.</p>
+
+<h3>3. Use of pitch</h3>
+<p>The facilities and equipment of the campsite are to be treated with care. Tearing off, lopping, and sawing off branches and twigs of trees and hedges is prohibited. Care must be taken that no one is endangered or annoyed by tent pegs, tent ropes, and other tent accessories. Fastening materials, such as pavement slabs and similar objects, must not protrude from the ground. In order not to damage lines in the ground, no objects may be driven into the ground. The pitch must be left clean and properly restored by the camping guest on their departure. Otherwise, the operator is entitled to have the cleaning and restoration of the pitch carried out at the expense of the camping guest.</p>
+
+<h3>4. Power supply</h3>
+<p>The electricity distribution boxes located near the pitch are only intended for lights, television, radio, and refrigerator. Connections that repeatedly cause a short circuit or earth fault will be disconnected from the power supply until the camping guest has had their system checked and repaired by a licensed master business. Every camping guest is liable for the proper use and condition of the electronic systems operated by them. This applies to all electrical devices connected to the electricity distribution boxes. The operator assumes no liability for power outages.</p>
+
+<h3>5. Pets / Animal keeping</h3>
+<p>Pets are only allowed after prior inquiry and consent of the operator. It is forbidden to let pets run free within the campsite. They must always be kept on a leash and, if necessary, tethered on the pitch itself. They must be kept so that no third party feels disturbed by them. Insofar as an animal constitutes a nuisance, the operator can demand that this animal be kept away from the campsite entirely, even if animal keeping has been permitted in the rental agreement. The rent cannot be reduced for this reason. Pet waste must be removed immediately by the owner.</p>
+
+<h3>6. Visitors</h3>
+<p>Visitors and camping guests pay the user fees fixed for the campsite according to the tariff directory. Visitors must leave the site by 10:00 p.m. unless an overnight stay has been registered for them.</p>
+
+<h3>7. Use of sanitary buildings</h3>
+<p>Children under 6 years are only allowed to enter the sanitary building when accompanied by adults. All users of the sanitary facilities must ensure cleanliness. Furnishings are to be treated with care.</p>
+
+<h3>8. Waste disposal</h3>
+<p>Order and cleanliness are the natural duty of all users of the campsite. All waste not generated on the campsite must not be disposed of here either. Bulky waste or household items, such as tarpaulins, old awnings, camping furniture, mattresses, refrigerators, and other electrical appliances, must also not be disposed of on the campsite. In case of violations, the operator is entitled to charge the person responsible for the costs incurred and to issue a ban from the site. In the designated area, containers are available for the disposal of household waste, paper/cardboard, bottles/glass, and sales packaging made of plastic/composite material.</p>
+
+<h3>9. Additional rules for long-term campers</h3>
+<p>Persons who are registered by the tenant are also entitled to use the site for a fee. The pitch cannot be terminated early or rented out otherwise by the tenant. A transfer or other transition of the pitch to the purchaser of a caravan, motorhome, or tent is excluded without the written consent of the operator.</p>
+<p>The long-term camper is obliged to keep his pitch, together with planting, permitted superstructures, and paths located in his immediate catchment area, clean, tidy, and in impeccable condition at all times. The green area must be processed so that it always leaves a visually neat impression. If necessary, the operator is entitled to have the property maintenance carried out at the expense of the camping guest.</p>
+<p>Long-term campers are also obliged to maintain the gas system in their leisure facility and to have it checked by an approved specialist within the legally prescribed periods.</p>
+<p>Access to the water and power connection points on the plot must be granted to the operator or his vicarious agents, site manager, at all times.</p>
+
+<h3>10. Miscellaneous</h3>
+<p>Entering the campsite is always at your own risk. Gas cylinders must be set up or stored in the containers provided for this purpose. Storage and transport must comply with safety regulations. Damage of any kind must be reported to the operator immediately and replaced by the persons responsible. The playground may only be used by children up to the age of 14. Legal guardians must supervise their children and instruct them in this regard. Before use, legal guardians must check the proper condition of the play equipment and report any defects to the site manager.</p>
+<p>The operator is not liable for theft or accidents. This also applies to the use of the washing machine. Use is at your own risk. Children must be kept away from these devices.</p>
+<p>The operator is entitled to give notice of termination without notice in the event of gross violations of the site rules.</p>
+<p>The Operator</p>`,
+      published: true,
     }
   ];
 
-  for (const page of legalPages) {
+  for (const page of pages) {
     await prisma.page.upsert({
       where: { slug: page.slug },
-      update: page, // Use full page object for update to overwrite content
+      update: page,
       create: page
     });
-    console.log(`Ensured legal page: ${page.slug}`);
+    console.log(`Ensured page: ${page.slug}`);
   }
 
-  // Check if nav links already exist
-  const existingLinks = await prisma.navLink.count();
-  
-  if (existingLinks === 0) {
-    // Create default navigation links
-    const navLinks = [
-      { labelDe: 'Über uns', labelEn: 'About us', url: '/about', position: 0, location: 'navbar' },
-      { labelDe: 'Preise & Infos', labelEn: 'Prices & Info', url: '/prices', position: 1, location: 'navbar' },
-      { labelDe: 'Buchungsanfrage', labelEn: 'Booking Request', url: '/calendar', position: 2, location: 'navbar' },
-      { labelDe: 'Neuigkeiten', labelEn: 'News', url: '/blog', position: 3, location: 'navbar' },
-      { labelDe: 'Kontakt', labelEn: 'Contact', url: '/contact', position: 4, location: 'navbar' },
-    ];
+  // Define nav links
+  const navLinks = [
+    { labelDe: 'Über uns', labelEn: 'About us', url: '/about', position: 0, location: 'navbar' },
+    { labelDe: 'Platzordnung', labelEn: 'Site Rules', url: '/platzordnung', position: 1, location: 'navbar' },
+    { labelDe: 'Preise & Infos', labelEn: 'Prices & Info', url: '/prices', position: 2, location: 'navbar' },
+    { labelDe: 'Buchungsanfrage', labelEn: 'Booking Request', url: '/calendar', position: 3, location: 'navbar' },
+    { labelDe: 'Neuigkeiten', labelEn: 'News', url: '/blog', position: 4, location: 'navbar' },
+    { labelDe: 'Kontakt', labelEn: 'Contact', url: '/contact', position: 5, location: 'navbar' },
+  ];
 
-    for (const link of navLinks) {
-      await prisma.navLink.create({ data: link });
-    }
+  console.log('Updating navigation links...');
+  // Clear existing navbar links to ensure correct order and labels
+  await prisma.navLink.deleteMany({
+    where: { location: 'navbar', parentId: null }
+  });
+
+  for (const link of navLinks) {
+    await prisma.navLink.create({
+      data: link
+    });
   }
 
   console.log('Seed completed!');
